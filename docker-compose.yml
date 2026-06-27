@@ -1,0 +1,12 @@
+services:
+  visionlife-landing:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: visionlife-landing:latest
+    container_name: visionlife-landing
+    restart: unless-stopped
+    ports:
+      # host:container — cambia 8080 si el puerto está ocupado en tu VPS.
+      # En Dokploy con dominio/Traefik puedes quitar este mapeo y exponer solo el puerto 80.
+      - "8080:80"

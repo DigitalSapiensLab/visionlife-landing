@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisionLife — Vende la visión de una nueva vida</title>
+  <meta name="description" content="VisionLife convierte los leads de feria en experiencias personalizadas y emocionales que aceleran la decisión de compra en proyectos inmobiliarios." />
+  <meta name="theme-color" content="#05070c" />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VisionLife — Vende la visión de una nueva vida" />
+  <meta property="og:description" content="Haz que tus prospectos se vean viviendo en tu proyecto antes de comprarlo." />
+  <meta property="og:image" content="assets/img/01.png" />
+
+  <style>
+    :root{
+      --wa-green:#25d366;
+      --wa-green-dark:#1ebe5d;
+      --brand-teal:#01d8a0;
+      --bg:#05070c;
+      --header-h:58px;
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
+    html{ scroll-behavior:smooth; }
+
+    body{
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(1,216,160,.10), transparent 60%),
+        linear-gradient(180deg, #05070c 0%, #04060a 100%);
+      background-attachment:fixed;
+      color:#e8eef2;
+      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      min-height:100vh;
+    }
+
+    /* ===== Header sticky ===== */
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      height:var(--header-h);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 16px;
+      background:rgba(5,7,12,.82);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(1,216,160,.18);
+    }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .brand img{
+      height:34px;
+      width:auto;
+      display:block;
+      border-radius:8px;
+    }
+    .header-cta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:var(--wa-green);
+      color:#04210f;
+      font-weight:700;
+      font-size:14px;
+      text-decoration:none;
+      padding:9px 14px;
+      border-radius:999px;
+      transition:transform .15s ease, background .15s ease;
+      white-space:nowrap;
+    }
+    .header-cta:hover{ background:var(--wa-green-dark); transform:translateY(-1px); }
+    .header-cta svg{ width:18px; height:18px; }
+    .header-cta .label-long{ display:none; }
+
+    /* ===== Feed de imágenes ===== */
+    .feed{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      width:100%;
+    }
+    .feed a{
+      display:block;
+      width:100%;
+      line-height:0;
+      position:relative;
+      transition:filter .2s ease;
+    }
+    .feed a:hover{ filter:brightness(1.04); }
+    .feed img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    /* Móvil: ancho completo (por defecto). Escritorio: 30% del ancho del navegador */
+    @media (min-width:1024px){
+      .feed{
+        width:30vw;
+        margin-inline:auto;
+      }
+      .brand img{ height:38px; }
+      .header-cta .label-long{ display:inline; }
+    }
+
+    /* ===== Botón flotante de WhatsApp ===== */
+    .wa-fab{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:60;
+      width:58px;
+      height:58px;
+      border-radius:50%;
+      background:var(--wa-green);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 0 rgba(37,211,102,.6);
+      animation:wa-pulse 2.4s infinite;
+      transition:transform .15s ease;
+    }
+    .wa-fab:hover{ transform:scale(1.07); }
+    .wa-fab svg{ width:32px; height:32px; }
+    @keyframes wa-pulse{
+      0%{ box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 0 rgba(37,211,102,.55); }
+      70%{ box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 16px rgba(37,211,102,0); }
+      100%{ box-shadow:0 8px 24px rgba(0,0,0,.45), 0 0 0 0 rgba(37,211,102,0); }
+    }
+    @media (prefers-reduced-motion:reduce){ .wa-fab{ animation:none; } }
+
+    /* ===== Footer ===== */
+    .site-footer{
+      text-align:center;
+      padding:34px 18px 110px;
+      color:#7e8a93;
+      font-size:13px;
+      line-height:1.7;
+    }
+    .site-footer a{ color:var(--brand-teal); text-decoration:none; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Logo sticky superior ===== -->
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="VisionLife">
+      <img src="assets/logo.svg" alt="VisionLife" />
+    </a>
+    <a class="header-cta"
+       href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios."
+       target="_blank" rel="noopener"
+       aria-label="Escríbenos por WhatsApp">
+      <svg viewBox="0 0 24 24" fill="#04210f" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.519 5.276l-.999 3.648 3.97-1.023z"/></svg>
+      <span class="label-long">Escríbenos</span>
+    </a>
+  </header>
+
+  <a id="top"></a>
+
+  <!-- ===== Imágenes secuenciadas (cada una enlaza a WhatsApp) ===== -->
+  <main class="feed">
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/01.png" width="941" height="1672" alt="No vendas departamentos. Vende la visión de una nueva vida." loading="eager" fetchpriority="high" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/02.png" width="941" height="1672" alt="Tus prospectos no compran solo por información. Compran por emoción." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/03.png" width="941" height="1672" alt="Captura leads más completos, no solo nombres y teléfonos." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/04.png" width="941" height="1672" alt="El lead no se va solo con una promesa. Se va con una imagen de su futuro." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/05.png" width="941" height="1585" alt="La venta inmobiliaria empieza cuando el prospecto se imagina viviendo ahí." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/06.png" width="941" height="1672" alt="Haz que el asesor comercial tenga una conversación más poderosa." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/07.png" width="933" height="1509" alt="No se lleva solo una promesa. Se lleva una imagen de su futuro." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/08.png" width="941" height="1672" alt="Aumenta la recordación de marca después de la feria." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
+      <img src="assets/img/09.png" width="941" height="1672" alt="No es solo tecnología. Es una estrategia de venta emocional." loading="lazy" decoding="async" />
+    </a>
+    <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Solicitar demo por WhatsApp">
+      <img src="assets/img/10.png" width="941" height="1570" alt="Haz que tus prospectos se vean viviendo en tu proyecto antes de comprarlo. Solicitar demo." loading="lazy" decoding="async" />
+    </a>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <p><strong>VisionLife</strong> · Growth Marketing Proptech</p>
+    <p>¿Listo para implementarlo en tus proyectos inmobiliarios?
+      <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener">Escríbenos por WhatsApp →</a>
+    </p>
+  </footer>
+
+  <!-- ===== Botón flotante WhatsApp ===== -->
+  <a class="wa-fab"
+     href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios."
+     target="_blank" rel="noopener"
+     aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.519 5.276l-.999 3.648 3.97-1.023zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+  </a>
+
+</body>
+</html>
