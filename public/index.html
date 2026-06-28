@@ -8,6 +8,10 @@
   <meta name="theme-color" content="#05070c" />
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg?v=2" />
 
+  <!-- ===== Meta (Facebook) Pixel + Conversions API — configurable desde /admin.html ===== -->
+  <script src="meta-config.js?v=1"></script>
+  <script defer src="assets/meta-pixel.js?v=1"></script>
+
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="VisionLife — Vende la visión de una nueva vida" />
@@ -276,7 +280,7 @@
         </div>
       </div>
       <!-- barra de navegación (dots) -->
-      <div class="slides-dots" role="tablist" aria-label="Navegación del carrusel">
+      <div class="slides-dots" role="group" aria-label="Navegación del carrusel">
         <button type="button" aria-current="true"  aria-label="Ir a la diapositiva 1"></button>
         <button type="button" aria-current="false" aria-label="Ir a la diapositiva 2"></button>
         <button type="button" aria-current="false" aria-label="Ir a la diapositiva 3"></button>

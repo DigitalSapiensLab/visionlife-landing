@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>VisionLife · Panel Meta Pixel</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg?v=2" />
+  <style>
+    :root{
+      --bg:#05070c; --panel:#0b1018; --panel2:#0f1622;
+      --teal:#01d8a0; --green:#25d366; --amber:#f5a623;
+      --text:#e8eef2; --muted:#8a97a3; --line:rgba(1,216,160,.18);
+      --danger:#ff5d6c; --radius:14px;
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      background:
+        radial-gradient(1100px 560px at 50% -12%, rgba(1,216,160,.10), transparent 60%),
+        linear-gradient(180deg,#05070c,#04060a);
+      min-height:100vh; color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; line-height:1.55;
+    }
+    .wrap{ max-width:760px; margin:0 auto; padding:26px 18px 90px; }
+
+    header.bar{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+    header.bar img{ height:40px; width:auto; display:block; }
+    .pill{ font-size:11px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
+      color:#04210f; background:var(--teal); padding:4px 9px; border-radius:999px; }
+    h1{ font-size:21px; margin:14px 0 2px; }
+    .sub{ color:var(--muted); font-size:14px; margin-bottom:18px; }
+
+    .card{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+      padding:18px 18px 20px; margin:14px 0; }
+    .card h2{ font-size:15px; margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+    .card h2 .n{ width:22px; height:22px; border-radius:50%; background:var(--panel2);
+      border:1px solid var(--line); color:var(--teal); font-size:12px; font-weight:700;
+      display:inline-flex; align-items:center; justify-content:center; }
+    .card .hint{ color:var(--muted); font-size:13px; margin-bottom:14px; }
+
+    label.field{ display:block; margin:13px 0; }
+    label.field .lbl{ display:block; font-size:13px; font-weight:600; margin-bottom:6px; }
+    label.field .lbl small{ color:var(--muted); font-weight:400; }
+    input[type=text], select{
+      width:100%; background:var(--panel2); color:var(--text);
+      border:1px solid var(--line); border-radius:10px; padding:11px 12px; font-size:15px;
+      outline:none; transition:border-color .15s ease;
+    }
+    input[type=text]:focus, select:focus{ border-color:var(--teal); }
+    input.bad{ border-color:var(--danger); }
+    .msg{ font-size:12.5px; margin-top:6px; min-height:16px; }
+    .msg.err{ color:var(--danger); } .msg.ok{ color:var(--teal); } .msg.warn{ color:var(--amber); }
+
+    .toggle{ display:flex; align-items:center; gap:12px; cursor:pointer; user-select:none; }
+    .toggle input{ position:absolute; opacity:0; width:0; height:0; }
+    .track{ width:46px; height:26px; border-radius:999px; background:#2a3543; position:relative;
+      transition:background .2s ease; flex:0 0 auto; }
+    .track::after{ content:""; position:absolute; top:3px; left:3px; width:20px; height:20px;
+      border-radius:50%; background:#fff; transition:transform .2s ease; }
+    .toggle input:checked + .track{ background:var(--green); }
+    .toggle input:checked + .track::after{ transform:translateX(20px); }
+    .toggle .tt{ font-weight:600; font-size:14px; }
+    .toggle .tt small{ display:block; color:var(--muted); font-weight:400; font-size:12.5px; }
+
+    .btns{ display:flex; flex-wrap:wrap; gap:10px; margin-top:6px; }
+    button.btn{ appearance:none; border:0; cursor:pointer; font-weight:700; font-size:14px;
+      padding:11px 16px; border-radius:999px; display:inline-flex; align-items:center; gap:8px;
+      transition:transform .12s ease, filter .15s ease; }
+    button.btn:hover{ transform:translateY(-1px); filter:brightness(1.06); }
+    .btn.primary{ background:var(--teal); color:#04210f; }
+    .btn.green{ background:var(--green); color:#04210f; }
+    .btn.ghost{ background:var(--panel2); color:var(--text); border:1px solid var(--line); }
+    .btn.warn{ background:transparent; color:var(--amber); border:1px solid rgba(245,166,35,.5); }
+
+    pre.code{ background:#070b11; border:1px solid var(--line); border-radius:10px;
+      padding:14px; overflow:auto; font-size:12.5px; line-height:1.5;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#cfe9df;
+      white-space:pre; max-height:340px; }
+    .copywrap{ position:relative; }
+    .copywrap .mini{ position:absolute; top:8px; right:8px; }
+    button.mini{ background:var(--panel2); color:var(--text); border:1px solid var(--line);
+      font-size:12px; padding:6px 10px; border-radius:8px; cursor:pointer; }
+    button.mini:hover{ border-color:var(--teal); }
+
+    ol.steps{ margin:6px 0 0 18px; } ol.steps li{ margin:7px 0; font-size:14px; }
+    ul.methods{ list-style:none; margin-top:8px; }
+    ul.methods li{ background:var(--panel2); border:1px solid var(--line); border-radius:10px;
+      padding:12px 13px; margin:9px 0; font-size:13.5px; }
+    ul.methods li .tag{ font-size:11px; font-weight:700; color:#04210f; background:var(--teal);
+      padding:2px 7px; border-radius:999px; margin-left:6px; }
+    code.inline{ background:#070b11; border:1px solid var(--line); border-radius:6px;
+      padding:1px 6px; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:#cfe9df; }
+    a{ color:var(--teal); }
+    .note{ font-size:12.5px; color:var(--muted); border-left:2px solid var(--line); padding-left:12px; margin-top:12px; }
+    details{ margin-top:12px; } summary{ cursor:pointer; font-size:13.5px; color:var(--teal); }
+    .banner{ background:rgba(245,166,35,.10); border:1px solid rgba(245,166,35,.35);
+      color:#ffd79a; font-size:12.5px; border-radius:10px; padding:10px 12px; margin-bottom:14px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="bar">
+      <img src="assets/logo.svg?v=2" alt="VisionLife" />
+      <span class="pill">Admin</span>
+    </header>
+    <h1>Integración con Meta Pixel</h1>
+    <p class="sub">Configura el Pixel de Facebook/Instagram y la verificación de dominio.
+      Esta página <strong>genera el archivo de configuración</strong>; tú lo descargas, lo subes al repo y vuelves a desplegar.</p>
+
+    <div class="banner">🔒 Esta página no debe enlazarse públicamente. No guarda secretos y no puede cambiar producción por sí sola: solo genera el archivo <code class="inline">meta-config.js</code>.</div>
+
+    <!-- 1. Pixel -->
+    <section class="card">
+      <h2><span class="n">1</span> Configuración del Pixel</h2>
+      <p class="hint">Toma estos datos de <a href="https://business.facebook.com/events_manager2" target="_blank" rel="noopener">Meta Events Manager</a> → tu Pixel → Configuración.</p>
+
+      <label class="field">
+        <span class="lbl">Pixel ID <small>(15-16 dígitos)</small></span>
+        <input type="text" id="pixelId" inputmode="numeric" placeholder="Ej: 123456789012345" autocomplete="off" />
+        <div class="msg" id="pixelMsg"></div>
+      </label>
+
+      <label class="field">
+        <span class="lbl">Evento al hacer clic en WhatsApp</span>
+        <select id="leadEvent">
+          <option value="Lead">Lead — interés / prospecto (recomendado)</option>
+          <option value="Contact">Contact — contacto</option>
+          <option value="Schedule">Schedule — agendar</option>
+        </select>
+      </label>
+
+      <label class="field toggle">
+        <input type="checkbox" id="enabled" />
+        <span class="track"></span>
+        <span class="tt">Activar Pixel en el sitio
+          <small>Si está apagado, la página funciona pero no carga el Pixel.</small></span>
+      </label>
+      <div class="msg warn" id="enabledMsg"></div>
+    </section>
+
+    <!-- 2. Verificación de dominio -->
+    <section class="card">
+      <h2><span class="n">2</span> Verificación de dominio</h2>
+      <p class="hint">Meta pide verificar el dominio. <strong>El método recomendado es subir el archivo HTML</strong> que te da Meta, porque no depende de JavaScript.</p>
+
+      <label class="field">
+        <span class="lbl">Código de verificación <small>(content del &lt;meta&gt;, opcional — solo referencia)</small></span>
+        <input type="text" id="domainVerification" placeholder="Ej: abc123def456..." autocomplete="off" />
+      </label>
+
+      <ul class="methods">
+        <li><strong>A) Archivo HTML</strong> <span class="tag">Recomendado</span><br>
+          En Meta: <em>Configuración del negocio → Seguridad de la marca → Dominios → tu dominio → Subir archivo HTML</em>.
+          Descarga el archivo <code class="inline">xxxxxxxx.html</code> y colócalo en
+          <code class="inline">public/</code> (queda servido en la raíz del sitio). Commit → push → Deploy → pulsa “Verificar” en Meta.</li>
+        <li><strong>B) Etiqueta &lt;meta&gt; estática</strong><br>
+          Pega esta línea dentro del <code class="inline">&lt;head&gt;</code> de
+          <code class="inline">public/index.html</code>:
+          <div class="copywrap" style="margin-top:8px">
+            <pre class="code" id="metaTag" style="max-height:none">&lt;meta name="facebook-domain-verification" content="" /&gt;</pre>
+            <span class="mini"><button class="mini" data-copy="metaTag">Copiar</button></span>
+          </div>
+          <span class="note">Escribe el código arriba para rellenar esta etiqueta. Súbela tú porque el rastreador de Meta no ejecuta JavaScript de forma fiable.</span></li>
+        <li><strong>C) Registro DNS TXT</strong><br>
+          Si tienes acceso al DNS del dominio, añade el TXT que indica Meta. Útil si no quieres tocar archivos.</li>
+      </ul>
+    </section>
+
+    <!-- 3. Conversions API -->
+    <section class="card">
+      <h2><span class="n">3</span> Conversions API (eventos de servidor)</h2>
+      <p class="hint">Envía los eventos también desde el servidor (además del Pixel) con <strong>deduplicación</strong> por <code class="inline">event_id</code>. Mejora la atribución cuando el navegador bloquea cookies/JS. <strong>El token es secreto y va en Dokploy, nunca en el repo.</strong></p>
+
+      <label class="field toggle">
+        <input type="checkbox" id="capiEnabled" />
+        <span class="track"></span>
+        <span class="tt">Activar Conversions API
+          <small>El navegador enviará cada evento al backend <code class="inline">capi</code>.</small></span>
+      </label>
+
+      <label class="field">
+        <span class="lbl">Endpoint del backend <small>(ruta que nginx redirige al servicio capi)</small></span>
+        <input type="text" id="capiEndpoint" placeholder="/api/capi" autocomplete="off" />
+      </label>
+
+      <div class="banner" style="margin-top:6px">⚙️ Para que funcione debes desplegar con <strong>Compose</strong> (incluye el servicio <code class="inline">capi</code>) y definir estas <strong>variables de entorno en Dokploy</strong>:</div>
+      <ul class="methods">
+        <li><code class="inline">CAPI_ENABLED</code> = <code class="inline">true</code></li>
+        <li><code class="inline">CAPI_ACCESS_TOKEN</code> = <em>token de la Conversions API</em> (Events Manager → Configuración → Conversions API → Generar token de acceso) <span class="tag">secreto</span></li>
+        <li><code class="inline">CAPI_PIXEL_ID</code> = <em>el mismo Pixel ID de arriba</em></li>
+        <li><code class="inline">CAPI_TEST_EVENT_CODE</code> = <em>(opcional)</em> código de “Probar eventos” para ver los eventos de servidor en tiempo real</li>
+        <li><code class="inline">CAPI_ALLOWED_ORIGIN</code> = <em>(opcional)</em> <code class="inline">https://tudominio.com</code> para rechazar otros orígenes</li>
+      </ul>
+      <p class="note">El campo “Pixel ID” de arriba se escribe en el archivo para el <strong>navegador</strong>. El backend usa su propia variable <code class="inline">CAPI_PIXEL_ID</code> (mismo valor) más el token, que <strong>nunca</strong> se guarda en archivos del sitio. Comprueba el estado del backend en <code class="inline">/api/capi/health</code>.</p>
+    </section>
+
+    <!-- 4. Generar y aplicar -->
+    <section class="card">
+      <h2><span class="n">4</span> Generar y aplicar</h2>
+      <p class="hint">Este es el archivo <code class="inline">public/meta-config.js</code> que se generará con tus datos:</p>
+
+      <div class="copywrap">
+        <pre class="code" id="preview"></pre>
+        <span class="mini"><button class="mini" data-copy="preview">Copiar</button></span>
+      </div>
+
+      <div class="btns" style="margin-top:14px">
+        <button class="btn primary" id="download">⬇️ Descargar meta-config.js</button>
+        <button class="btn ghost" id="copyFile">📋 Copiar contenido</button>
+        <button class="btn green" id="preview-btn">👁️ Probar en este navegador</button>
+        <button class="btn warn" id="clear-preview">Quitar prueba</button>
+      </div>
+      <div class="msg" id="actionMsg"></div>
+
+      <h2 style="margin-top:22px; font-size:14px">Pasos para publicar</h2>
+      <ol class="steps">
+        <li>Pulsa <strong>Descargar</strong> y reemplaza el archivo <code class="inline">public/meta-config.js</code> en tu repositorio con el descargado.</li>
+        <li>Sube el cambio: <code class="inline">git add public/meta-config.js &amp;&amp; git commit -m "meta: pixel" &amp;&amp; git push</code></li>
+        <li>En <strong>Dokploy</strong> pulsa <strong>Deploy</strong> (o espera el autodeploy).</li>
+        <li>Verifica en <a href="https://business.facebook.com/events_manager2" target="_blank" rel="noopener">Events Manager → Probar eventos</a> o con la extensión <strong>Meta Pixel Helper</strong>.</li>
+      </ol>
+      <p class="note">“Probar en este navegador” guarda una vista previa solo en <em>tu</em> navegador (localStorage) y activa los mensajes de consola. Abre la <a href="index.html" target="_blank" rel="noopener">landing</a> en esta misma ventana/navegador para comprobar que el Pixel dispara. No afecta a los visitantes hasta que publiques el archivo.</p>
+    </section>
+
+    <details>
+      <summary>Notas avanzadas (CAPI, noscript, seguridad del panel)</summary>
+      <div class="note" style="margin-top:10px">
+        <p><strong>Conversions API (CAPI):</strong> es de servidor y <strong>no</strong> se puede hacer desde un sitio estático sin un backend (el token nunca debe ir en archivos del navegador). Queda fuera de alcance; opciones futuras: una función serverless en tu VPS o el CAPI Gateway de Meta.</p>
+        <p style="margin-top:8px"><strong>Test Event Code:</strong> aplica a CAPI/servidor; el Pixel del navegador lo ignora, por eso no se escribe en el archivo. Para probar usa <em>Events Manager → Probar eventos</em>.</p>
+        <p style="margin-top:8px"><strong>&lt;noscript&gt;:</strong> se omite a propósito. Si JS está desactivado el Pixel no puede ejecutarse de ninguna forma; el tráfico sin JS es mínimo.</p>
+        <p style="margin-top:8px"><strong>Proteger este panel:</strong> ya lleva <code class="inline">noindex</code> y está en <code class="inline">robots.txt</code>. Para pedir usuario/contraseña, descomenta el bloque de HTTP Basic Auth en <code class="inline">nginx.conf</code> (instrucciones incluidas).</p>
+      </div>
+    </details>
+  </div>
+
+  <script>
+  (function(){
+    "use strict";
+    var $ = function(id){ return document.getElementById(id); };
+    var els = {
+      pixelId: $("pixelId"), leadEvent: $("leadEvent"), enabled: $("enabled"),
+      domainVerification: $("domainVerification"),
+      capiEnabled: $("capiEnabled"), capiEndpoint: $("capiEndpoint"),
+      pixelMsg: $("pixelMsg"), enabledMsg: $("enabledMsg"), actionMsg: $("actionMsg"),
+      preview: $("preview"), metaTag: $("metaTag")
+    };
+
+    function pixelValid(v){ return /^\d{15,16}$/.test(String(v||"").trim()); }
+    function jsStr(s){ return JSON.stringify(String(s == null ? "" : s)); }
+
+    // Plantilla EXACTA del archivo (mismo formato que el meta-config.js por defecto → diffs limpios).
+    function buildFile(c){
+      return ''+
+'/* ============================================================\n'+
+'   VisionLife · Configuración de Meta (Facebook) Pixel\n'+
+'   ------------------------------------------------------------\n'+
+'   Edita estos valores desde el panel  /admin.html  (recomendado)\n'+
+'   o a mano. Después:  git commit  →  git push  →  y vuelve a\n'+
+'   desplegar en Dokploy (botón "Deploy") para que los cambios\n'+
+'   salgan a producción.\n'+
+'\n'+
+'   Si "enabled" es false o el Pixel ID está vacío, la página\n'+
+'   funciona normal y NO se carga ningún Pixel.\n'+
+'   ============================================================ */\n'+
+'window.VL_META = {\n'+
+'  // Interruptor general. Si es false, NO se carga ningún Pixel.\n'+
+'  enabled: '+(c.enabled ? 'true' : 'false')+',\n'+
+'\n'+
+'  // ID numérico del Pixel (15-16 dígitos).\n'+
+'  // Meta Events Manager → Orígenes de datos → tu Pixel → Configuración.\n'+
+'  pixelId: '+jsStr(c.pixelId)+',\n'+
+'\n'+
+'  // Evento estándar al hacer clic en WhatsApp: "Lead" | "Contact" | "Schedule".\n'+
+'  leadEvent: '+jsStr(c.leadEvent)+',\n'+
+'\n'+
+'  // Código de verificación de dominio (SOLO referencia; ver métodos en /admin.html).\n'+
+'  // El Pixel NO lo inyecta: usa el archivo HTML que te da Meta o el <meta> estático.\n'+
+'  domainVerification: '+jsStr(c.domainVerification)+',\n'+
+'\n'+
+'  // Conversions API (eventos de servidor, además del Pixel, con deduplicación).\n'+
+'  // Requiere desplegar con Compose (servicio "capi") y configurar el TOKEN y el\n'+
+'  // PIXEL_ID como variables de entorno en Dokploy (NUNCA aquí). El navegador solo\n'+
+'  // envía el evento a "endpoint"; el token vive en el servidor.\n'+
+'  capi: {\n'+
+'    enabled: '+(c.capiEnabled ? 'true' : 'false')+',\n'+
+'    endpoint: '+jsStr(c.capiEndpoint || "/api/capi")+'\n'+
+'  },\n'+
+'\n'+
+'  // true = muestra mensajes de depuración en la consola del navegador.\n'+
+'  debug: false\n'+
+'};\n';
+    }
+
+    function current(){
+      return {
+        enabled: !!els.enabled.checked,
+        pixelId: els.pixelId.value.trim(),
+        leadEvent: els.leadEvent.value,
+        domainVerification: els.domainVerification.value.trim(),
+        capiEnabled: !!els.capiEnabled.checked,
+        capiEndpoint: (els.capiEndpoint.value.trim() || "/api/capi")
+      };
+    }
+
+    function render(){
+      var c = current();
+      els.preview.textContent = buildFile(c);
+      // etiqueta meta estática (escapamos el valor por si pegan comillas / un tag completo)
+      var dv = (c.domainVerification||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      els.metaTag.textContent = '<meta name="facebook-domain-verification" content="'+ dv +'" />';
+      // validación pixel
+      var pv = els.pixelId.value.trim();
+      if(!pv){ els.pixelMsg.textContent=""; els.pixelMsg.className="msg"; els.pixelId.classList.remove("bad"); }
+      else if(pixelValid(pv)){ els.pixelMsg.textContent="✓ Formato válido"; els.pixelMsg.className="msg ok"; els.pixelId.classList.remove("bad"); }
+      else { els.pixelMsg.textContent="Debe tener 15-16 dígitos numéricos."; els.pixelMsg.className="msg err"; els.pixelId.classList.add("bad"); }
+      // aviso enabled sin pixel
+      if(c.enabled && !pixelValid(pv)){ els.enabledMsg.textContent="⚠️ El Pixel está activado pero el ID no es válido: no se cargará nada hasta corregirlo."; }
+      else { els.enabledMsg.textContent=""; }
+    }
+
+    ["input","change"].forEach(function(ev){
+      els.pixelId.addEventListener(ev, render);
+      els.domainVerification.addEventListener(ev, render);
+      els.leadEvent.addEventListener(ev, render);
+      els.enabled.addEventListener(ev, render);
+      els.capiEnabled.addEventListener(ev, render);
+      els.capiEndpoint.addEventListener(ev, render);
+    });
+
+    /* ---- Prefill: leer el meta-config.js actual (sin eval, con regex) ---- */
+    function parseConfig(text){
+      function strOf(key){ var m=text.match(new RegExp(key+'\\s*:\\s*["\\\']([^"\\\']*)["\\\']')); return m?m[1]:null; }
+      function boolOf(key){ var m=text.match(new RegExp(key+'\\s*:\\s*(true|false)')); return m?(m[1]==='true'):null; }
+      // CAPI vive en un bloque anidado capi:{ enabled, endpoint }
+      var capiBlock = (text.match(/capi\s*:\s*\{([\s\S]*?)\}/) || [,''])[1];
+      function capiBool(key){ var m=capiBlock.match(new RegExp(key+'\\s*:\\s*(true|false)')); return m?(m[1]==='true'):null; }
+      function capiStr(key){ var m=capiBlock.match(new RegExp(key+'\\s*:\\s*["\\\']([^"\\\']*)["\\\']')); return m?m[1]:null; }
+      return { pixelId:strOf('pixelId'), leadEvent:strOf('leadEvent'),
+               domainVerification:strOf('domainVerification'), enabled:boolOf('enabled'),
+               capiEnabled:capiBool('enabled'), capiEndpoint:capiStr('endpoint') };
+    }
+    function prefill(){
+      fetch('meta-config.js?ts=' + (new Date().getTime()), {cache:'no-store'})
+        .then(function(r){ return r.ok ? r.text() : ""; })
+        .then(function(t){
+          if(!t) { render(); return; }
+          var c = parseConfig(t);
+          if(c.pixelId!=null) els.pixelId.value=c.pixelId;
+          if(c.domainVerification!=null) els.domainVerification.value=c.domainVerification;
+          if(c.leadEvent){ for(var i=0;i<els.leadEvent.options.length;i++){ if(els.leadEvent.options[i].value===c.leadEvent){ els.leadEvent.selectedIndex=i; break; } } }
+          if(c.enabled!=null) els.enabled.checked=c.enabled;
+          if(c.capiEnabled!=null) els.capiEnabled.checked=c.capiEnabled;
+          if(c.capiEndpoint!=null) els.capiEndpoint.value=c.capiEndpoint;
+          render();
+        })
+        .catch(function(){ render(); });
+    }
+
+    /* ---- Acciones ---- */
+    function flash(msg, cls){ els.actionMsg.textContent=msg; els.actionMsg.className="msg "+(cls||"ok");
+      window.clearTimeout(flash._t); flash._t=window.setTimeout(function(){ els.actionMsg.textContent=""; }, 4000); }
+
+    $("download").addEventListener("click", function(){
+      var c=current();
+      if(c.enabled && !pixelValid(c.pixelId)){ flash("Corrige el Pixel ID antes de descargar (o desactiva el Pixel).","err"); return; }
+      var blob=new Blob([buildFile(c)], {type:"text/javascript;charset=utf-8"});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement("a"); a.href=url; a.download="meta-config.js";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+      flash("Descargado. Ahora reemplázalo en public/meta-config.js, haz push y Deploy.","ok");
+    });
+
+    function copyText(text, okMsg){
+      function done(){ flash(okMsg||"Copiado.","ok"); }
+      function fail(){ flash("No se pudo copiar; selecciona y copia manualmente.","err"); }
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, fail); }
+      else { try{ var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); done(); }catch(e){ fail(); } }
+    }
+    $("copyFile").addEventListener("click", function(){ copyText(buildFile(current()), "Contenido copiado al portapapeles."); });
+    // botones "mini" de copiar (etiqueta meta y preview)
+    Array.prototype.forEach.call(document.querySelectorAll("button.mini[data-copy]"), function(b){
+      b.addEventListener("click", function(){ var t=document.getElementById(b.getAttribute("data-copy")); if(t) copyText(t.textContent, "Copiado."); });
+    });
+
+    $("preview-btn").addEventListener("click", function(){
+      var c=current();
+      if(!pixelValid(c.pixelId)){ flash("Escribe un Pixel ID válido (15-16 dígitos) para probar.","err"); return; }
+      var p={ enabled:true, pixelId:c.pixelId, leadEvent:c.leadEvent, domainVerification:c.domainVerification,
+              capi:{ enabled:c.capiEnabled, endpoint:c.capiEndpoint }, debug:true };
+      try{ localStorage.setItem("VL_META_PREVIEW", JSON.stringify(p));
+        flash("Vista previa activada en este navegador. Abre la landing en esta misma ventana para verla.","ok"); }
+      catch(e){ flash("No se pudo guardar la vista previa (localStorage bloqueado).","err"); }
+    });
+    $("clear-preview").addEventListener("click", function(){
+      try{ localStorage.removeItem("VL_META_PREVIEW"); flash("Vista previa eliminada de este navegador.","ok"); }
+      catch(e){ flash("No se pudo limpiar la vista previa.","err"); }
+    });
+
+    prefill();
+  })();
+  </script>
+</body>
+</html>

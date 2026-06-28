@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# El panel de administración se mantiene fuera del índice con la cabecera
+# X-Robots-Tag: noindex (nginx) y <meta name="robots" content="noindex"> en la
+# página, en vez de listarlo aquí (robots.txt no protege y revelaría la ruta).
