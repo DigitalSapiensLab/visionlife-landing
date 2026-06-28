@@ -5,6 +5,9 @@ FROM nginx:1.27-alpine
 RUN rm -f /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Credenciales del panel /admin.html (solo el hash bcrypt; ver nginx.conf)
+COPY .htpasswd /etc/nginx/.htpasswd
+
 # Copia el sitio
 COPY public/ /usr/share/nginx/html/
 

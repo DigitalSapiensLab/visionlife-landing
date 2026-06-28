@@ -163,8 +163,19 @@ lo firma con el token y lo manda a la Graph API de Meta. Meta deduplica Pixel + 
 > Si despliegas como **Application (solo nginx)** en vez de Compose, la landing y el Pixel
 > funcionan igual; solo la CAPI queda inactiva (deja `capi.enabled: false`).
 
-### Proteger el panel `/admin.html` (opcional)
+### Acceso al panel `/admin.html`
 
-Descomenta el bloque de **HTTP Basic Auth** en `nginx.conf`, genera credenciales con
-`htpasswd -c ./.htpasswd admin`, cópialas a la imagen (`COPY .htpasswd /etc/nginx/.htpasswd`
-en el `Dockerfile`) y vuelve a desplegar.
+El panel está **protegido con usuario y contraseña** (HTTP Basic Auth en `nginx.conf`).
+El hash vive en `.htpasswd` (se versiona; solo es el hash bcrypt, no la clave en claro) y el
+`Dockerfile` lo copia a la imagen.
+
+**Cambiar la contraseña:**
+
+```bash
+htpasswd -B .htpasswd admin     # te pide la nueva clave (usuario: admin)
+git add .htpasswd && git commit -m "admin: nueva clave" && git push
+# luego pulsa Deploy en Dokploy
+```
+
+Para añadir más usuarios usa `htpasswd -B .htpasswd otro-usuario`. Para quitar la
+protección, comenta las dos líneas `auth_basic*` del bloque `location = /admin.html`.
