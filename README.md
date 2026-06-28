@@ -19,7 +19,9 @@ visionlife-landing/
 │   ├── index.html
 │   └── assets/
 │       ├── logo.svg
-│       └── img/01.{avif,webp} … 10.{avif,webp}   # AVIF + WebP (fallback)
+│       └── img/
+│           ├── 01.{avif,webp} … 10.{avif,webp}        # Infografías (AVIF + WebP)
+│           └── paso-1.{avif,webp} … paso-6.{avif,webp} # Slideshow automático (posición 2)
 ├── Dockerfile              # Nginx alpine sirviendo /public
 ├── nginx.conf
 ├── docker-compose.yml

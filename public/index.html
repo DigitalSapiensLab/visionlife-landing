@@ -108,6 +108,60 @@
       .header-cta .label-long{ display:inline; }
     }
 
+    /* ===== Slideshow automático (PASOS) ===== */
+    .slideshow{
+      width:100%;
+      margin:2px 0;          /* margen casi imperceptible */
+      padding:0 2px;         /* deja respirar el marco a los lados */
+    }
+    .slides{
+      position:relative;
+      overflow:hidden;
+      line-height:0;
+      border:1px solid rgba(1,216,160,.30);   /* marco muy pequeño */
+      border-radius:12px;                       /* borde redondeado leve */
+      background:var(--bg);
+    }
+    .slides-track{
+      display:flex;
+      will-change:transform;
+      transition:transform .55s cubic-bezier(.45,.05,.2,1);
+    }
+    .slides-track .slide{
+      flex:0 0 100%;
+      width:100%;
+    }
+    .slides-track img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    /* barra de navegación / dots */
+    .slides-dots{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:9px;
+      padding:11px 0 3px;
+      line-height:0;
+    }
+    .slides-dots button{
+      width:8px;
+      height:8px;
+      padding:0;
+      border:0;
+      border-radius:50%;
+      background:rgba(232,238,242,.26);
+      cursor:pointer;
+      transition:background .2s ease, transform .2s ease, width .2s ease;
+    }
+    .slides-dots button:hover{ background:rgba(232,238,242,.5); }
+    .slides-dots button[aria-current="true"]{
+      background:var(--brand-teal);
+      width:22px;
+      border-radius:999px;
+    }
+
     /* ===== Botón flotante de WhatsApp ===== */
     .wa-fab{
       position:fixed;
@@ -172,6 +226,66 @@
         <img src="assets/img/01.webp" width="941" height="1672" alt="No vendas departamentos. Vende la visión de una nueva vida." loading="eager" fetchpriority="high" decoding="async" />
       </picture>
     </a>
+
+    <!-- ===== Slideshow automático: cómo funciona VisionLife (PASOS) ===== -->
+    <section class="slideshow" data-slideshow aria-roledescription="carrusel" aria-label="Cómo funciona VisionLife, paso a paso">
+      <div class="slides">
+        <div class="slides-track">
+          <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="1 de 6">
+            <picture>
+              <source type="image/avif" srcset="assets/img/paso-1.avif" />
+              <source type="image/webp" srcset="assets/img/paso-1.webp" />
+              <img src="assets/img/paso-1.webp" width="944" height="1680" alt="Paso 1 de 4: Captura tus fotos." loading="lazy" decoding="async" />
+            </picture>
+          </div>
+          <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 6">
+            <picture>
+              <source type="image/avif" srcset="assets/img/paso-2.avif" />
+              <source type="image/webp" srcset="assets/img/paso-2.webp" />
+              <img src="assets/img/paso-2.webp" width="941" height="1672" alt="Paso 2 de 4: Selecciona tu proyecto." loading="lazy" decoding="async" />
+            </picture>
+          </div>
+          <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 6">
+            <picture>
+              <source type="image/avif" srcset="assets/img/paso-3.avif" />
+              <source type="image/webp" srcset="assets/img/paso-3.webp" />
+              <img src="assets/img/paso-3.webp" width="941" height="1672" alt="Paso 3 de 4: Elige 4 ambientes." loading="lazy" decoding="async" />
+            </picture>
+          </div>
+          <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="4 de 6">
+            <picture>
+              <source type="image/avif" srcset="assets/img/paso-4.avif" />
+              <source type="image/webp" srcset="assets/img/paso-4.webp" />
+              <img src="assets/img/paso-4.webp" width="941" height="1672" alt="Paso 4 de 4: Completa tus datos." loading="lazy" decoding="async" />
+            </picture>
+          </div>
+          <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="5 de 6">
+            <picture>
+              <source type="image/avif" srcset="assets/img/paso-5.avif" />
+              <source type="image/webp" srcset="assets/img/paso-5.webp" />
+              <img src="assets/img/paso-5.webp" width="944" height="1680" alt="La IA genera la emoción final: escenas personalizadas listas para compartir." loading="lazy" decoding="async" />
+            </picture>
+          </div>
+          <div class="slide" role="group" aria-roledescription="diapositiva" aria-label="6 de 6">
+            <picture>
+              <source type="image/avif" srcset="assets/img/paso-6.avif" />
+              <source type="image/webp" srcset="assets/img/paso-6.webp" />
+              <img src="assets/img/paso-6.webp" width="944" height="1680" alt="El prospecto recibe su página personalizada, lista para compartir." loading="lazy" decoding="async" />
+            </picture>
+          </div>
+        </div>
+      </div>
+      <!-- barra de navegación (dots) -->
+      <div class="slides-dots" role="tablist" aria-label="Navegación del carrusel">
+        <button type="button" aria-current="true"  aria-label="Ir a la diapositiva 1"></button>
+        <button type="button" aria-current="false" aria-label="Ir a la diapositiva 2"></button>
+        <button type="button" aria-current="false" aria-label="Ir a la diapositiva 3"></button>
+        <button type="button" aria-current="false" aria-label="Ir a la diapositiva 4"></button>
+        <button type="button" aria-current="false" aria-label="Ir a la diapositiva 5"></button>
+        <button type="button" aria-current="false" aria-label="Ir a la diapositiva 6"></button>
+      </div>
+    </section>
+
     <a href="https://wa.me/51989192379?text=Hola%2C%20estoy%20interesado%20en%20implementar%20VisionLife%20para%20mis%20proyectos%20inmobiliarios." target="_blank" rel="noopener" aria-label="Hablar por WhatsApp">
       <picture>
         <source type="image/avif" srcset="assets/img/02.avif" />
@@ -252,6 +366,59 @@
      aria-label="Contactar por WhatsApp">
     <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.519 5.276l-.999 3.648 3.97-1.023zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
   </a>
+
+  <!-- ===== Slideshow automático (PASOS) ===== -->
+  <script>
+  (function(){
+    var root = document.querySelector('[data-slideshow]');
+    if(!root) return;
+    var track = root.querySelector('.slides-track');
+    var slides = Array.prototype.slice.call(track.children);
+    var dots   = Array.prototype.slice.call(root.querySelectorAll('.slides-dots button'));
+    var n = slides.length, i = 0, timer = null;
+    var INTERVAL = 4200;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function show(idx){
+      i = (idx % n + n) % n;
+      track.style.transform = 'translateX(' + (-i * 100) + '%)';
+      for(var d = 0; d < dots.length; d++){
+        dots[d].setAttribute('aria-current', d === i ? 'true' : 'false');
+      }
+    }
+    function next(){ show(i + 1); }
+    function start(){ if(reduce) return; stop(); timer = setInterval(next, INTERVAL); }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+
+    dots.forEach(function(dot, idx){
+      dot.addEventListener('click', function(){ show(idx); start(); });
+    });
+
+    // pausa al interactuar (hover en escritorio, táctil en móvil)
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('touchstart', stop, {passive:true});
+    root.addEventListener('touchend', start, {passive:true});
+
+    // swipe táctil
+    var x0 = null;
+    track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+    track.addEventListener('touchend', function(e){
+      if(x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if(Math.abs(dx) > 40){ show(i + (dx < 0 ? 1 : -1)); }
+      x0 = null;
+    }, {passive:true});
+
+    // pausa cuando la pestaña no está visible
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ stop(); } else { start(); }
+    });
+
+    show(0);
+    start();
+  })();
+  </script>
 
 </body>
 </html>
