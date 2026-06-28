@@ -26,43 +26,41 @@ visionlife-landing/
 │       └── img/
 │           ├── 01.{avif,webp} … 10.{avif,webp}        # Infografías (AVIF + WebP)
 │           └── paso-1.{avif,webp} … paso-6.{avif,webp} # Slideshow automático (posición 2)
-├── capi/                   # Backend de la Conversions API (Node, sin dependencias)
-│   ├── server.js
-│   └── Dockerfile
-├── Dockerfile              # Nginx alpine sirviendo /public
-├── nginx.conf             # + proxy /api/ → servicio capi
-├── docker-compose.yml     # web (nginx) + capi (node)
-├── .env.example           # Variables de la CAPI (token, etc.) — NO subir .env real
+├── capi/
+│   └── server.js           # Backend de la Conversions API (Node, sin dependencias)
+├── Dockerfile              # UNA imagen: Nginx (web) + Node (backend CAPI)
+├── start.sh                # Arranca Node + Nginx en el mismo contenedor
+├── nginx.conf              # sirve /public y hace proxy /api/ → 127.0.0.1:3000
+├── docker-compose.yml      # opcional (prueba local); un solo servicio
+├── .env.example            # Variables de la CAPI (token, etc.) — NO subir .env real
 └── .dockerignore
 ```
+
+> La **misma imagen** sirve la web y el backend de la Conversions API, así que el
+> despliegue tipo **Application (Dockerfile)** ya incluye todo — no hace falta Compose.
 
 ---
 
 ## 🚀 Despliegue en Dokploy (recomendado)
 
-### Opción A — Application + Dockerfile (la más simple)
+### Application + Dockerfile (recomendado — incluye la Conversions API)
 
 1. En tu proyecto **Visionlife** → **Create Service → Application**.
 2. **Provider: GitHub** → conecta la cuenta `DigitalSapiensLab` y elige el repo
    **`visionlife-landing`**, rama `main`.
 3. **Build Type:** `Dockerfile` · Dockerfile Path: `Dockerfile`.
 4. En **Advanced / Ports** deja el puerto del contenedor en **`80`**.
-5. Pestaña **Domains** → agrega tu dominio (o usa el `*.traefik.me` que da Dokploy)
+5. **Si vas a usar la Conversions API:** pestaña **Environment** → añade las
+   variables `CAPI_*` (ver `.env.example` y la sección *Integración Meta Pixel*).
+   El backend va dentro de la misma imagen, así que **no necesitas Compose**.
+6. Pestaña **Domains** → agrega tu dominio (o el `*.traefik.me` de Dokploy)
    apuntando al **puerto 80** y activa HTTPS (Let's Encrypt).
-6. **Deploy**. Dokploy clona, construye la imagen y publica.
+7. **Deploy**. Con el autodeploy/webhook activo, cada `git push` a `main`
+   reconstruye y publica solo.
 
-### Opción B — Compose  *(necesaria si usas la Conversions API)*
-
-1. **Create Service → Compose**, provider GitHub → repo `visionlife-landing`.
-2. Compose Path: `docker-compose.yml`.
-3. Asigna el dominio al servicio `visionlife-landing` (puerto interno `80`).
-4. Si vas a usar la **Conversions API**, añade en **Environment** las variables
-   `CAPI_*` (ver `.env.example` y la sección *Integración Meta Pixel* más abajo).
-   Levanta dos contenedores: `visionlife-landing` (nginx) y `capi` (Node).
-5. **Deploy**.
-
-> Cada vez que hagas `git push` a `main`, vuelve a pulsar **Deploy** (o activa el
-> webhook/autodeploy de Dokploy) para actualizar producción.
+> ¿Prefieres Compose? También funciona: **Create Service → Compose**, Compose Path
+> `docker-compose.yml`, define las `CAPI_*` en Environment y Deploy. Es un solo
+> servicio (la misma imagen).
 
 ---
 
@@ -136,11 +134,11 @@ Alternativas (en `/admin.html`): etiqueta `<meta>` estática en `index.html` o r
 ### B) Conversions API (eventos de servidor)
 
 La CAPI envía los eventos **desde el servidor** además del Pixel (mejor atribución cuando el
-navegador bloquea cookies/JS). Requiere el backend `capi` (incluido) y **desplegar con Compose**.
+navegador bloquea cookies/JS). El backend ya viene **dentro de la misma imagen**, así que
+funciona con el despliegue normal de **Application** — no necesitas Compose.
 
 1. En Meta *Events Manager → Configuración → Conversions API → Generar token de acceso*.
-2. Despliega con **Compose** (Opción B de arriba) para que arranque el servicio `capi`.
-3. En Dokploy → tu servicio → **Environment**, define (ver `.env.example`):
+2. En Dokploy → tu servicio → **Environment**, define (ver `.env.example`):
 
    ```
    CAPI_ENABLED=true
@@ -150,15 +148,17 @@ navegador bloquea cookies/JS). Requiere el backend `capi` (incluido) y **despleg
    CAPI_ALLOWED_ORIGIN=https://TU-DOMINIO  # opcional, recomendado
    ```
 
+3. **Deploy** (o `git push` si tienes autodeploy).
 4. En `/admin.html` activa **Conversions API** (deja el endpoint en `/api/capi`), descarga
    el `meta-config.js`, push y Deploy.
 5. Comprueba el backend en `https://TU-DOMINIO/api/capi/health` (debe responder
    `{"ok":true,"enabled":true,"hasToken":true,"hasPixel":true}`).
 
-**Cómo funciona:** nginx redirige `/api/` al servicio `capi` (Node, puerto 3000). El navegador
-envía cada evento (con su `event_id`) a `/api/capi`; el backend le añade IP + user-agent,
-lo firma con el token y lo manda a la Graph API de Meta. Meta deduplica Pixel + CAPI por
-`event_id`. **El token solo vive en variables de entorno del servidor, jamás en archivos del sitio.**
+**Cómo funciona:** dentro del contenedor corren Nginx + Node (`start.sh`). Nginx redirige
+`/api/` a `127.0.0.1:3000` (el backend Node). El navegador envía cada evento (con su
+`event_id`) a `/api/capi`; el backend le añade IP + user-agent, lo firma con el token y lo
+manda a la Graph API de Meta. Meta deduplica Pixel + CAPI por `event_id`. **El token solo vive
+en variables de entorno del servidor, jamás en archivos del sitio.**
 
 > Si despliegas como **Application (solo nginx)** en vez de Compose, la landing y el Pixel
 > funcionan igual; solo la CAPI queda inactiva (deja `capi.enabled: false`).

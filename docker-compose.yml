@@ -6,24 +6,9 @@ services:
     image: visionlife-landing:latest
     container_name: visionlife-landing
     restart: unless-stopped
-    depends_on:
-      capi:
-        condition: service_healthy
-    ports:
-      # host:container — cambia 8080 si el puerto está ocupado en tu VPS.
-      # En Dokploy con dominio/Traefik puedes quitar este mapeo y exponer solo el puerto 80.
-      - "8080:80"
-
-  # ===== Backend de la Conversions API (Meta CAPI) =====
-  # nginx redirige /api/ a este servicio (puerto interno 3000).
-  # El TOKEN es secreto: defínelo como variable de entorno en Dokploy, NO en el repo.
-  capi:
-    build:
-      context: ./capi
-      dockerfile: Dockerfile
-    image: visionlife-capi:latest
-    container_name: visionlife-capi
-    restart: unless-stopped
+    # La imagen ya incluye Nginx + el backend CAPI (Node). Las variables de la
+    # Conversions API se definen en Dokploy → Environment (o en un .env local).
+    # El token es secreto: NUNCA lo subas al repo.
     environment:
       - CAPI_ENABLED=${CAPI_ENABLED:-false}
       - CAPI_ACCESS_TOKEN=${CAPI_ACCESS_TOKEN:-}
@@ -31,5 +16,7 @@ services:
       - CAPI_TEST_EVENT_CODE=${CAPI_TEST_EVENT_CODE:-}
       - CAPI_ALLOWED_ORIGIN=${CAPI_ALLOWED_ORIGIN:-}
       - CAPI_API_VERSION=${CAPI_API_VERSION:-v21.0}
-    expose:
-      - "3000"
+    ports:
+      # host:container — cambia 8080 si el puerto está ocupado en tu VPS.
+      # En Dokploy con dominio/Traefik puedes quitar este mapeo y exponer solo el 80.
+      - "8080:80"
