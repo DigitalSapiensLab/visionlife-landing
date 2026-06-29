@@ -100,18 +100,22 @@ Toda la configuración de Meta se maneja desde el **panel de administración**:
 https://TU-DOMINIO/admin.html
 ```
 
-> El panel lleva `noindex` y está en `robots.txt` (no se enlaza públicamente). **No guarda
-> secretos** y no puede cambiar producción por sí solo: solo **genera** el archivo
-> `public/meta-config.js`, que tú subes al repo y vuelves a desplegar.
+> El panel lleva `noindex`, está en `robots.txt` y **requiere usuario/contraseña**
+> (HTTP Basic Auth). Al pulsar **Guardar y aplicar**, escribe la configuración en el
+> servidor (volumen `/data`) y se aplica **al instante** — sin tocar el repo ni redesplegar.
 
 ### A) Pixel del navegador (lo más común)
 
-1. Entra a `/admin.html` → pega tu **Pixel ID** (15-16 dígitos), elige el evento de WhatsApp
-   (**Lead** recomendado) y activa el interruptor.
-2. Pulsa **Descargar meta-config.js** y reemplaza `public/meta-config.js` en el repo.
-3. `git add public/meta-config.js && git commit -m "meta: pixel" && git push`
-4. En Dokploy pulsa **Deploy**. Verifica con la extensión **Meta Pixel Helper** o en
-   *Events Manager → Probar eventos*.
+1. Entra a `/admin.html` (usuario/contraseña) → pega tu **Pixel ID** (15-16 dígitos),
+   elige el evento de WhatsApp (**Lead** recomendado) y activa el interruptor.
+2. Pulsa **💾 Guardar y aplicar**. Listo: se aplica al instante y al recargar la página
+   tus datos siguen ahí (se leen del servidor).
+3. Verifica con la extensión **Meta Pixel Helper** o en *Events Manager → Probar eventos*.
+
+> **Persistencia:** para que la config guardada sobreviva a los redeploys, en Dokploy
+> añade un **Volume Mount → ruta `/data`** (tu servicio → *Advanced → Volumes/Mounts*).
+> Sin volumen sigue funcionando, pero vuelve al valor inicial del repo al redesplegar.
+> *“Descargar copia”* en el panel sigue disponible si quieres versionar el archivo en git.
 
 El cargador `assets/meta-pixel.js`:
 - inicializa el Pixel y dispara `PageView`,
@@ -124,12 +128,16 @@ El cargador `assets/meta-pixel.js`:
 > cambios lleguen al instante. El cargador `meta-pixel.js` sí se cachea: si lo modificas,
 > sube su versión en `index.html` (`meta-pixel.js?v=2`).
 
-### Verificación de dominio (Meta)
+### Verificación de dominio (Meta) — desde el panel
 
-Método recomendado: **subir el archivo HTML** que te da Meta (no depende de JavaScript).
-En *Configuración del negocio → Seguridad de la marca → Dominios → Subir archivo HTML*:
-descarga `xxxxxxxx.html`, colócalo en `public/`, haz push y Deploy, y pulsa **Verificar**.
-Alternativas (en `/admin.html`): etiqueta `<meta>` estática en `index.html` o registro DNS TXT.
+En *Meta → Configuración del negocio → Seguridad de la marca → Dominios → Subir archivo HTML*,
+descarga el archivo `xxxxxxxx.html`. Luego en **`/admin.html`** (sección *Verificación de
+dominio*) **súbelo** y pulsa **Guardar**: el servidor lo aloja en la raíz del sitio al instante
+(`https://TU-DOMINIO/xxxxxxxx.html`). Vuelve a Meta y pulsa **Verificar**.
+
+> Funciona para el dominio (o subdominio) que **apunte a este servidor**. Si verificas un
+> dominio alojado en otro hosting, el archivo debe ir en ese otro sitio.
+> Alternativas en el panel: etiqueta `<meta>` o registro DNS TXT.
 
 ### B) Conversions API (eventos de servidor)
 

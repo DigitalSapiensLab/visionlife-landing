@@ -322,6 +322,9 @@ details .note{ margin:0 16px 16px; border-left-color:var(--line2); }
 .capi-badge.off{ color:#ffd2a6; border-color:rgba(245,166,35,.42); background:rgba(245,166,35,.10); }
 .capi-badge.bad{ color:#ffc2c8; border-color:rgba(255,93,108,.42); background:rgba(255,93,108,.10); }
 .capi-line{ margin-top:8px; font-size:12px; color:var(--muted); }
+input[type=file]{ width:100%; font-size:13px; color:var(--muted); padding:8px 0; }
+input[type=file]::file-selector-button{ background:var(--panel3); color:var(--text); border:1px solid var(--line); border-radius:9px; padding:9px 13px; font-size:13px; font-weight:600; cursor:pointer; margin-right:11px; transition:border-color .15s; }
+input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
   </style>
 </head>
 <body>
@@ -441,32 +444,31 @@ details .note{ margin:0 16px 16px; border-left-color:var(--line2); }
         <!-- 2. Verificación de dominio -->
         <section class="card" id="step-domain">
           <h2><span class="n">2</span> Verificación de dominio</h2>
-          <p class="hint">Meta pide verificar el dominio. <strong>El método recomendado es subir el archivo HTML</strong> que te da Meta, porque no depende de JavaScript.</p>
+          <p class="hint">Sube aquí el <strong>archivo HTML</strong> que te da Meta y pulsa <strong>Guardar</strong>: se aloja solo en la raíz de este sitio. Luego pulsa <strong>Verificar</strong> en Meta. Funciona para el dominio (o subdominio) que apunte a este servidor.</p>
 
           <label class="field">
-            <span class="lbl">Código de verificación <small>(content del &lt;meta&gt;, opcional — solo referencia)</small></span>
-            <span class="inputwrap">
-              <span class="ic" aria-hidden="true">✔</span>
-              <input type="text" id="domainVerification" placeholder="Ej: abc123def456..." autocomplete="off" />
-            </span>
+            <span class="lbl">Archivo de verificación de Meta <small>(.html — se aloja al pulsar “Guardar y aplicar”)</small></span>
+            <input type="file" id="verifyFileInput" accept=".html,text/html" />
+            <div class="msg" id="verifyMsg"></div>
           </label>
+          <div id="verifyHosted" class="note" style="margin-top:4px"></div>
 
-          <ul class="methods">
-            <li><strong>A) Archivo HTML</strong> <span class="tag">Recomendado</span><br>
-              En Meta: <em>Configuración del negocio → Seguridad de la marca → Dominios → tu dominio → Subir archivo HTML</em>.
-              Descarga el archivo <code class="inline">xxxxxxxx.html</code> y colócalo en
-              <code class="inline">public/</code> (queda servido en la raíz del sitio). Commit → push → Deploy → pulsa “Verificar” en Meta.</li>
-            <li><strong>B) Etiqueta &lt;meta&gt; estática</strong><br>
-              Pega esta línea dentro del <code class="inline">&lt;head&gt;</code> de
-              <code class="inline">public/index.html</code>:
-              <div class="copywrap" style="margin-top:10px">
-                <pre class="code" id="metaTag" style="max-height:none">&lt;meta name="facebook-domain-verification" content="" /&gt;</pre>
-                <span class="mini"><button class="mini" data-copy="metaTag">Copiar</button></span>
-              </div>
-              <span class="note">Escribe el código arriba para rellenar esta etiqueta. Súbela tú porque el rastreador de Meta no ejecuta JavaScript de forma fiable.</span></li>
-            <li><strong>C) Registro DNS TXT</strong><br>
-              Si tienes acceso al DNS del dominio, añade el TXT que indica Meta. Útil si no quieres tocar archivos.</li>
-          </ul>
+          <details style="margin-top:12px">
+            <summary>Otros métodos (etiqueta &lt;meta&gt; o DNS TXT)</summary>
+            <label class="field" style="margin-top:12px">
+              <span class="lbl">Código de verificación <small>(content del &lt;meta&gt;, opcional)</small></span>
+              <span class="inputwrap">
+                <span class="ic" aria-hidden="true">✔</span>
+                <input type="text" id="domainVerification" placeholder="Ej: abc123def456..." autocomplete="off" />
+              </span>
+            </label>
+            <p class="note">Etiqueta para pegar en el <code class="inline">&lt;head&gt;</code> de tu home si prefieres el método de etiqueta:</p>
+            <div class="copywrap" style="margin-top:8px">
+              <pre class="code" id="metaTag" style="max-height:none">&lt;meta name="facebook-domain-verification" content="" /&gt;</pre>
+              <span class="mini"><button class="mini" data-copy="metaTag">Copiar</button></span>
+            </div>
+            <p class="note" style="margin-top:8px"><strong>DNS TXT:</strong> si tienes acceso al DNS del dominio, añade el registro TXT que indica Meta.</p>
+          </details>
         </section>
 
         <!-- 3. Conversions API -->
@@ -518,8 +520,8 @@ details .note{ margin:0 16px 16px; border-left-color:var(--line2); }
 
         <!-- 4. Generar y aplicar -->
         <section class="card" id="step-deploy">
-          <h2><span class="n">4</span> Generar y aplicar</h2>
-          <p class="hint">Este es el archivo <code class="inline">public/meta-config.js</code> que se generará con tus datos:</p>
+          <h2><span class="n">4</span> Guardar y aplicar</h2>
+          <p class="hint">Esta es la configuración que se guardará en el servidor y se aplicará al sitio <strong>al instante</strong>:</p>
 
           <div class="copywrap">
             <pre class="code" id="preview"></pre>
@@ -527,29 +529,30 @@ details .note{ margin:0 16px 16px; border-left-color:var(--line2); }
           </div>
 
           <div class="btns" style="margin-top:16px">
-            <button class="btn primary" id="download">⬇️ Descargar meta-config.js</button>
-            <button class="btn ghost" id="copyFile">📋 Copiar contenido</button>
-            <button class="btn green" id="preview-btn">👁️ Probar en este navegador</button>
+            <button class="btn primary" id="btnSave">💾 Guardar y aplicar</button>
+            <button class="btn green" id="preview-btn">👁️ Probar solo aquí</button>
+            <button class="btn ghost" id="download">⬇️ Descargar copia</button>
+            <button class="btn ghost" id="copyFile">📋 Copiar</button>
             <button class="btn warn" id="clear-preview">Quitar prueba</button>
           </div>
+          <div class="msg" id="saveMsg"></div>
           <div class="msg" id="actionMsg"></div>
 
-          <h3 class="subhead">Pasos para publicar</h3>
+          <h3 class="subhead">¿Cómo funciona?</h3>
           <ol class="steps">
-            <li>Pulsa <strong>Descargar</strong> y reemplaza el archivo <code class="inline">public/meta-config.js</code> en tu repositorio con el descargado.</li>
-            <li>Sube el cambio: <code class="inline">git add public/meta-config.js &amp;&amp; git commit -m "meta: pixel" &amp;&amp; git push</code></li>
-            <li>En <strong>Dokploy</strong> pulsa <strong>Deploy</strong> (o espera el autodeploy).</li>
-            <li>Verifica en <a href="https://business.facebook.com/events_manager2" target="_blank" rel="noopener">Events Manager → Probar eventos</a> o con la extensión <strong>Meta Pixel Helper</strong>.</li>
+            <li><strong>Guardar y aplicar</strong> escribe la configuración en el servidor y se aplica <strong>al instante</strong>, sin tocar el repo ni redesplegar.</li>
+            <li>Recarga esta página cuando quieras: tus datos siguen guardados (se leen del servidor, ya no se borran).</li>
+            <li>Verifica en <a href="https://business.facebook.com/events_manager2" target="_blank" rel="noopener">Events Manager → Probar eventos</a> o con <strong>Meta Pixel Helper</strong>.</li>
           </ol>
-          <p class="note">“Probar en este navegador” guarda una vista previa solo en <em>tu</em> navegador (localStorage) y activa los mensajes de consola. Abre la <a href="index.html" target="_blank" rel="noopener">landing</a> en esta misma ventana/navegador para comprobar que el Pixel dispara. No afecta a los visitantes hasta que publiques el archivo.</p>
+          <p class="note"><strong>“Probar solo aquí”</strong> activa una vista previa en TU navegador (no afecta a los visitantes), útil para comprobar antes de guardar. <strong>“Descargar copia”</strong> es opcional: guarda el archivo en el repo como respaldo.</p>
 
           <details>
-            <summary>Notas avanzadas (CAPI, noscript, seguridad del panel)</summary>
+            <summary>Notas avanzadas (persistencia, CAPI, seguridad)</summary>
             <div class="note">
-              <p><strong>Conversions API (CAPI):</strong> es de servidor y <strong>no</strong> se puede hacer desde un sitio estático sin un backend (el token nunca debe ir en archivos del navegador). Queda fuera de alcance; opciones futuras: una función serverless en tu VPS o el CAPI Gateway de Meta.</p>
-              <p style="margin-top:8px"><strong>Test Event Code:</strong> aplica a CAPI/servidor; el Pixel del navegador lo ignora, por eso no se escribe en el archivo. Para probar usa <em>Events Manager → Probar eventos</em>.</p>
-              <p style="margin-top:8px"><strong>&lt;noscript&gt;:</strong> se omite a propósito. Si JS está desactivado el Pixel no puede ejecutarse de ninguna forma; el tráfico sin JS es mínimo.</p>
-              <p style="margin-top:8px"><strong>Proteger este panel:</strong> ya lleva <code class="inline">noindex</code> y está en <code class="inline">robots.txt</code>. Para pedir usuario/contraseña, descomenta el bloque de HTTP Basic Auth en <code class="inline">nginx.conf</code> (instrucciones incluidas).</p>
+              <p><strong>Persistencia:</strong> la configuración se guarda en el volumen <code class="inline">/data</code> del servidor. Para que sobreviva a los redeploys, en Dokploy añade un <strong>Volume Mount → ruta <code class="inline">/data</code></strong>. Sin volumen sigue funcionando, pero vuelve al valor inicial al redesplegar.</p>
+              <p style="margin-top:8px"><strong>Conversions API:</strong> el token vive como variable de entorno en Dokploy (<code class="inline">CAPI_ACCESS_TOKEN</code>), nunca en archivos del navegador. Su estado se ve en la tarjeta “Estado del servidor CAPI”.</p>
+              <p style="margin-top:8px"><strong>Test Event Code:</strong> aplica a la CAPI/servidor; se define con <code class="inline">CAPI_TEST_EVENT_CODE</code> en Dokploy.</p>
+              <p style="margin-top:8px"><strong>Seguridad:</strong> guardar requiere tu usuario y contraseña (el mismo del panel).</p>
             </div>
           </details>
         </section>
@@ -816,6 +819,84 @@ details .note{ margin:0 16px 16px; border-left-color:var(--line2); }
     }
     if(btn) btn.addEventListener("click", checkHealth);
     checkHealth();
+
+    /* ---- GUARDAR y aplicar (POST /api/config) + verificación de dominio ---- */
+    var btnSave=$("btnSave"), saveMsg=$("saveMsg"), verifyInput=$("verifyFileInput"),
+        verifyMsg=$("verifyMsg"), verifyHosted=$("verifyHosted");
+    var pendingVerify = null; // {name, content}
+
+    function setSaveMsg(m, cls){ if(saveMsg){ saveMsg.textContent=m; saveMsg.className="msg "+(cls||""); } }
+
+    if (verifyInput) {
+      verifyInput.addEventListener("change", function(){
+        var f = verifyInput.files && verifyInput.files[0];
+        if(!f){ pendingVerify=null; if(verifyMsg){ verifyMsg.textContent=""; verifyMsg.className="msg"; } return; }
+        if(!/\.html$/i.test(f.name)){ pendingVerify=null; if(verifyMsg){ verifyMsg.textContent="Debe ser un archivo .html"; verifyMsg.className="msg err"; } return; }
+        var rd = new FileReader();
+        rd.onload = function(){ pendingVerify={ name:f.name, content:String(rd.result||"") };
+          if(verifyMsg){ verifyMsg.textContent="Archivo listo: "+f.name+" — se alojará al pulsar Guardar."; verifyMsg.className="msg ok"; } };
+        rd.onerror = function(){ pendingVerify=null; if(verifyMsg){ verifyMsg.textContent="No se pudo leer el archivo."; verifyMsg.className="msg err"; } };
+        rd.readAsText(f);
+      });
+    }
+
+    function gather(){
+      return {
+        enabled: !!($("enabled") && $("enabled").checked),
+        pixelId: ($("pixelId") && $("pixelId").value.trim()) || "",
+        leadEvent: ($("leadEvent") && $("leadEvent").value) || "Lead",
+        domainVerification: ($("domainVerification") && $("domainVerification").value.trim()) || "",
+        capiEnabled: !!($("capiEnabled") && $("capiEnabled").checked),
+        capiEndpoint: ($("capiEndpoint") && $("capiEndpoint").value.trim()) || "/api/capi"
+      };
+    }
+
+    function refreshHosted(){
+      fetch("/api/config/status", { credentials:"include", cache:"no-store" })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d){
+          if(!d || !verifyHosted) return;
+          verifyHosted.innerHTML = (d.verifyFiles && d.verifyFiles.length)
+            ? ("Alojados: " + d.verifyFiles.map(function(n){ return '<code class="inline">'+n+'</code>'; }).join(" "))
+            : "Aún no has subido ningún archivo de verificación.";
+        }).catch(function(){});
+    }
+
+    if (btnSave) {
+      btnSave.addEventListener("click", function(){
+        var c = gather();
+        if (c.enabled && !/^\d{15,16}$/.test(c.pixelId)) {
+          setSaveMsg("Corrige el Pixel ID (15-16 dígitos) o desactiva el Pixel antes de guardar.","err"); return;
+        }
+        if (pendingVerify) c.verifyFile = pendingVerify;
+        btnSave.disabled = true; setSaveMsg("Guardando…","");
+        fetch("/api/config", {
+          method:"POST", credentials:"include",
+          headers:{ "Content-Type":"application/json" },
+          body: JSON.stringify(c)
+        }).then(function(r){
+          if(r.status===401){ throw { auth:true }; }
+          return r.json().then(function(j){ return { status:r.status, j:j }; });
+        }).then(function(res){
+          btnSave.disabled=false;
+          if(res.status===200 && res.j && res.j.ok){
+            var extra = res.j.persistent ? "" : "  ⚠️ Falta el volumen /data en Dokploy: se reiniciará al redesplegar.";
+            var vmsg = res.j.savedVerify ? ("  Archivo "+res.j.savedVerify+" alojado.")
+                     : (res.j.verifyError ? ("  ("+res.j.verifyError+")") : "");
+            setSaveMsg("✓ Guardado y aplicado en el sitio."+vmsg+extra, "ok");
+            pendingVerify=null; if(verifyInput){ verifyInput.value=""; }
+            refreshHosted(); setTimeout(syncAll, 250);
+          } else {
+            setSaveMsg((res.j && res.j.message) ? res.j.message : ("No se pudo guardar (HTTP "+res.status+")."), "err");
+          }
+        }).catch(function(e){
+          btnSave.disabled=false;
+          if(e && e.auth){ setSaveMsg("No autorizado. Recarga la página e inicia sesión, o usa “Descargar copia”.","err"); }
+          else { setSaveMsg("No se pudo contactar el servidor. ¿Está desplegado con el Dockerfile? Puedes usar “Descargar copia”.","err"); }
+        });
+      });
+      refreshHosted();
+    }
   })();
   </script>
 </body>

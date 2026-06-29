@@ -20,3 +20,10 @@ services:
       # host:container — cambia 8080 si el puerto está ocupado en tu VPS.
       # En Dokploy con dominio/Traefik puedes quitar este mapeo y exponer solo el 80.
       - "8080:80"
+    volumes:
+      # Config guardada desde el panel (meta-config.js + archivos de verificación).
+      # PERSISTE entre redeploys. En Dokploy: añade un Volume Mount → ruta /data.
+      - vl_data:/data
+
+volumes:
+  vl_data:
