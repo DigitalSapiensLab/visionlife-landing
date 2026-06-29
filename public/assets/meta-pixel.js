@@ -43,18 +43,29 @@
     }
   }
 
-  /* ---- 2. Validaciones (fallo seguro y silencioso) ---- */
-  if (!cfg.enabled) { log("Pixel desactivado (enabled=false). No se carga nada."); return; }
-
-  var pixelId = String(cfg.pixelId == null ? "" : cfg.pixelId).trim();
-  if (!/^\d{15,16}$/.test(pixelId)) {
-    log("Pixel ID inválido o vacío:", JSON.stringify(pixelId), "— se esperan 15-16 dígitos. No se carga nada.");
-    return;
-  }
+  /* ---- 2. ¿Hay un Pixel ESTÁTICO ya cargado en index.html? ---- */
+  // index.html puede llevar el código del Pixel de Meta directamente (define
+  // window.__VL_PIXEL_ID). En ese caso NO re-inicializamos (evitamos doble
+  // PageView): solo añadimos los eventos de WhatsApp (Lead) y la Conversions API.
+  var staticId = (typeof window.__VL_PIXEL_ID === "string" && /^\d{15,16}$/.test(window.__VL_PIXEL_ID)) ? window.__VL_PIXEL_ID : "";
 
   var leadEvent = (typeof cfg.leadEvent === "string" && cfg.leadEvent.trim()) ? cfg.leadEvent.trim() : "Lead";
   var capi = (cfg.capi && typeof cfg.capi === "object") ? cfg.capi : {};
   var capiOn = !!capi.enabled && typeof capi.endpoint === "string" && capi.endpoint;
+
+  var pixelId = String(cfg.pixelId == null ? "" : cfg.pixelId).trim();
+
+  /* ---- Validaciones (fallo seguro). Con pixel estático seguimos siempre. ---- */
+  if (staticId) {
+    pixelId = staticId;
+    log("Pixel estático detectado en la página:", pixelId, "— no se re-inicializa.");
+  } else {
+    if (!cfg.enabled) { log("Pixel desactivado y sin pixel estático. No se carga nada."); return; }
+    if (!/^\d{15,16}$/.test(pixelId)) {
+      log("Pixel ID inválido o vacío:", JSON.stringify(pixelId), "— se esperan 15-16 dígitos. No se carga nada.");
+      return;
+    }
+  }
 
   /* ---- Utilidades para deduplicación Pixel + CAPI ---- */
   function uuid() {
@@ -124,25 +135,31 @@
     } catch (e) { log("Error CAPI:", e); }
   }
 
-  /* ---- 3. Código base oficial de Meta Pixel (fbevents.js) ---- */
-  try {
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return;
-      n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
-      if (!f._fbq) f._fbq = n;
-      n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
-      t = b.createElement(e); t.async = !0; t.src = v;
-      s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
-    }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+  /* ---- 3. Inicializar el Pixel (SOLO si no hay uno estático en index.html) ---- */
+  if (!staticId) {
+    try {
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if (!f._fbq) f._fbq = n;
+        n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
+        t = b.createElement(e); t.async = !0; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 
-    window.fbq("init", pixelId);
-    var pvId = uuid();
-    window.fbq("track", "PageView", {}, { eventID: pvId });
-    sendCapi("PageView", pvId, {});
-    log("Pixel inicializado:", pixelId, "· PageView enviado · CAPI:", capiOn ? "on" : "off");
-  } catch (err) {
-    log("Error inicializando el Pixel:", err);
-    return;
+      window.fbq("init", pixelId);
+      var pvId = uuid();
+      window.fbq("track", "PageView", {}, { eventID: pvId });
+      sendCapi("PageView", pvId, {});
+      log("Pixel inicializado (config):", pixelId, "· PageView enviado · CAPI:", capiOn ? "on" : "off");
+    } catch (err) {
+      log("Error inicializando el Pixel:", err);
+      return;
+    }
+  } else {
+    // Pixel estático: el navegador ya disparó el PageView en index.html. No lo
+    // mandamos por CAPI (no compartiría event_id → sería un duplicado).
+    log("Usando pixel estático; PageView ya disparado por index.html. CAPI:", capiOn ? "on" : "off");
   }
 
   /* ---- 4. Evento de WhatsApp en cada clic a wa.me ---- */

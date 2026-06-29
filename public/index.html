@@ -8,9 +8,28 @@
   <meta name="theme-color" content="#05070c" />
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg?v=2" />
 
-  <!-- ===== Meta (Facebook) Pixel + Conversions API — configurable desde /admin.html ===== -->
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2429752624096890');
+  fbq('track', 'PageView');
+  window.__VL_PIXEL_ID='2429752624096890';
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2429752624096890&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- ===== Conversions API + eventos de WhatsApp (configurable desde /admin.html) ===== -->
   <script src="meta-config.js?v=1"></script>
-  <script defer src="assets/meta-pixel.js?v=1"></script>
+  <script defer src="assets/meta-pixel.js?v=2"></script>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />

@@ -11,11 +11,11 @@
    ============================================================ */
 window.VL_META = {
   // Interruptor general. Si es false, NO se carga ningún Pixel.
-  enabled: false,
+  enabled: true,
 
   // ID numérico del Pixel (15-16 dígitos).
   // Meta Events Manager → Orígenes de datos → tu Pixel → Configuración.
-  pixelId: "",
+  pixelId: "2429752624096890",
 
   // Evento estándar al hacer clic en WhatsApp: "Lead" | "Contact" | "Schedule".
   leadEvent: "Lead",
@@ -29,7 +29,7 @@ window.VL_META = {
   // PIXEL_ID como variables de entorno en Dokploy (NUNCA aquí). El navegador solo
   // envía el evento a "endpoint"; el token vive en el servidor.
   capi: {
-    enabled: false,
+    enabled: true,
     endpoint: "/api/capi"
   },
 
