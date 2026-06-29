@@ -157,9 +157,15 @@
       return;
     }
   } else {
-    // Pixel estático: el navegador ya disparó el PageView en index.html. No lo
-    // mandamos por CAPI (no compartiría event_id → sería un duplicado).
-    log("Usando pixel estático; PageView ya disparado por index.html. CAPI:", capiOn ? "on" : "off");
+    // Pixel inicializado en el <head> desde la config. Mandamos la copia CAPI del
+    // PageView con el MISMO event_id (lo deja index.html en __VL_PV_EVENT_ID) para
+    // que Meta deduplique navegador + servidor.
+    try {
+      if (capiOn && typeof window.__VL_PV_EVENT_ID === "string" && window.__VL_PV_EVENT_ID) {
+        sendCapi("PageView", window.__VL_PV_EVENT_ID, {});
+      }
+    } catch (e) {}
+    log("Pixel desde config (head); PageView ya disparado. CAPI:", capiOn ? "on" : "off");
   }
 
   /* ---- 4. Evento de WhatsApp en cada clic a wa.me ---- */

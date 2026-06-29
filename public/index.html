@@ -8,28 +8,30 @@
   <meta name="theme-color" content="#05070c" />
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg?v=2" />
 
-  <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2429752624096890');
-  fbq('track', 'PageView');
-  window.__VL_PIXEL_ID='2429752624096890';
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2429752624096890&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
-
-  <!-- ===== Conversions API + eventos de WhatsApp (configurable desde /admin.html) ===== -->
+  <!-- ===== Meta Pixel + Conversions API — TODO se configura desde /admin.html ===== -->
+  <!-- 1) Config (la escribe el panel). 2) Inicializa el Pixel DESDE la config, aquí
+       en el <head> para que Meta lo detecte de forma fiable. 3) El cargador diferido
+       añade los eventos de WhatsApp (Lead) + Conversions API. -->
   <script src="meta-config.js?v=1"></script>
-  <script defer src="assets/meta-pixel.js?v=2"></script>
+  <script>
+  (function(){
+    try{
+      var c=(window.VL_META&&typeof window.VL_META==='object')?window.VL_META:{};
+      // vista previa local del panel ("Probar solo aquí")
+      try{var p=localStorage.getItem('VL_META_PREVIEW');if(p){var o=JSON.parse(p)||{},m={},k;for(k in c)m[k]=c[k];for(k in o)m[k]=o[k];c=m;}}catch(e){}
+      var id=String(c.pixelId||'').trim();
+      if(c.enabled&&/^\d{15,16}$/.test(id)){
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        var pv='e-'+Date.now()+'-'+Math.random().toString(16).slice(2);
+        fbq('init',id);
+        fbq('track','PageView',{},{eventID:pv});
+        window.__VL_PIXEL_ID=id;
+        window.__VL_PV_EVENT_ID=pv;
+      }
+    }catch(e){}
+  })();
+  </script>
+  <script defer src="assets/meta-pixel.js?v=3"></script>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />

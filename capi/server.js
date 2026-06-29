@@ -72,7 +72,9 @@ function buildMetaConfig(c) {
 '  // Conversions API (eventos de servidor, con deduplicación por event_id).\n' +
 '  capi: {\n' +
 '    enabled: ' + (c.capiEnabled ? 'true' : 'false') + ',\n' +
-'    endpoint: ' + jsStr(c.capiEndpoint || "/api/capi") + '\n' +
+'    endpoint: ' + jsStr(c.capiEndpoint || "/api/capi") + ',\n' +
+'    // Código de "Probar eventos" (Events Manager). Déjalo vacío en producción.\n' +
+'    testEventCode: ' + jsStr(c.testEventCode || "") + '\n' +
 '  },\n' +
 '\n' +
 '  // true = mensajes de depuración en la consola.\n' +
@@ -90,9 +92,19 @@ function readSavedConfig() {
     var cs = function (k) { var m = capiBlock.match(new RegExp(k + '\\s*:\\s*["\\\']([^"\\\']*)["\\\']')); return m ? m[1] : ""; };
     return {
       enabled: boolOf('enabled'), pixelId: strOf('pixelId'), leadEvent: strOf('leadEvent') || "Lead",
-      domainVerification: strOf('domainVerification'), capiEnabled: cb('enabled'), capiEndpoint: cs('endpoint') || "/api/capi"
+      domainVerification: strOf('domainVerification'), capiEnabled: cb('enabled'), capiEndpoint: cs('endpoint') || "/api/capi",
+      testEventCode: cs('testEventCode')
     };
   } catch (e) { return null; }
+}
+
+// Test Event Code efectivo: lo guardado desde el panel manda; si no, la variable de
+// entorno CAPI_TEST_EVENT_CODE. Cacheado 5s para no leer disco en cada evento.
+var _tecCache = null, _tecTs = 0;
+function currentTestCode() {
+  var now = Date.now();
+  if (now - _tecTs > 5000) { var s = readSavedConfig(); _tecCache = (s && s.testEventCode) || ""; _tecTs = now; }
+  return _tecCache || TEST_CODE;
 }
 function listVerifyFiles() {
   try { return fs.readdirSync(WELLKNOWN_DIR).filter(function (f) { return /\.html$/i.test(f); }); }
@@ -159,7 +171,9 @@ function handleSaveConfig(req, res) {
     var endpoint = String(v.capiEndpoint || "/api/capi").trim();
     if (!/^\/[A-Za-z0-9/_-]*$/.test(endpoint)) endpoint = "/api/capi";
     var dv = String(v.domainVerification || "").replace(/[\r\n"'<>]/g, "").slice(0, 200);
-    var values = { enabled: !!v.enabled, pixelId: pixelId, leadEvent: leadEvent, domainVerification: dv, capiEnabled: !!v.capiEnabled, capiEndpoint: endpoint };
+    var tec = String(v.testEventCode || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 60);
+    var values = { enabled: !!v.enabled, pixelId: pixelId, leadEvent: leadEvent, domainVerification: dv, capiEnabled: !!v.capiEnabled, capiEndpoint: endpoint, testEventCode: tec };
+    _tecTs = 0; // invalidar caché del test code
 
     var wroteVerify = null, verifyError = null;
     try {
@@ -246,7 +260,8 @@ var server = http.createServer(function (req, res) {
       custom_data: (evt.custom_data && typeof evt.custom_data === "object") ? evt.custom_data : {}
     }];
     var payload = { data: data };
-    if (TEST_CODE) payload.test_event_code = TEST_CODE;
+    var tc = currentTestCode();
+    if (tc) payload.test_event_code = tc;
 
     postToMeta(payload).then(function (r) {
       var ok = r.status >= 200 && r.status < 300;

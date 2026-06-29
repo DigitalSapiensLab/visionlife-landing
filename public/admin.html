@@ -491,6 +491,16 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
             </span>
           </label>
 
+          <label class="field">
+            <span class="lbl">Test Event Code <small>(opcional — Events Manager → Probar eventos)</small></span>
+            <span class="inputwrap">
+              <span class="ic" aria-hidden="true">🧪</span>
+              <input type="text" id="testEventCode" placeholder="Ej: TEST12345" autocomplete="off" />
+            </span>
+            <div class="msg" id="testMsg"></div>
+          </label>
+          <p class="note">Pon aquí el código que te da Meta en <em>Probar eventos</em> para ver los eventos de <strong>servidor (CAPI)</strong> en tiempo real, y pulsa <strong>Guardar</strong>. <strong>Bórralo cuando termines de probar.</strong> Los eventos del navegador aparecen solos en esa pestaña.</p>
+
           <!-- Estado del servidor CAPI en vivo -->
           <div class="capibox">
             <div class="head">
@@ -568,7 +578,7 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
     var els = {
       pixelId: $("pixelId"), leadEvent: $("leadEvent"), enabled: $("enabled"),
       domainVerification: $("domainVerification"),
-      capiEnabled: $("capiEnabled"), capiEndpoint: $("capiEndpoint"),
+      capiEnabled: $("capiEnabled"), capiEndpoint: $("capiEndpoint"), testEventCode: $("testEventCode"),
       pixelMsg: $("pixelMsg"), enabledMsg: $("enabledMsg"), actionMsg: $("actionMsg"),
       preview: $("preview"), metaTag: $("metaTag")
     };
@@ -611,7 +621,9 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
 '  // envía el evento a "endpoint"; el token vive en el servidor.\n'+
 '  capi: {\n'+
 '    enabled: '+(c.capiEnabled ? 'true' : 'false')+',\n'+
-'    endpoint: '+jsStr(c.capiEndpoint || "/api/capi")+'\n'+
+'    endpoint: '+jsStr(c.capiEndpoint || "/api/capi")+',\n'+
+'    // Código de "Probar eventos" (Events Manager). Déjalo vacío en producción.\n'+
+'    testEventCode: '+jsStr(c.testEventCode || "")+'\n'+
 '  },\n'+
 '\n'+
 '  // true = muestra mensajes de depuración en la consola del navegador.\n'+
@@ -626,7 +638,8 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
         leadEvent: els.leadEvent.value,
         domainVerification: els.domainVerification.value.trim(),
         capiEnabled: !!els.capiEnabled.checked,
-        capiEndpoint: (els.capiEndpoint.value.trim() || "/api/capi")
+        capiEndpoint: (els.capiEndpoint.value.trim() || "/api/capi"),
+        testEventCode: (els.testEventCode ? els.testEventCode.value.trim() : "")
       };
     }
 
@@ -653,6 +666,7 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
       els.enabled.addEventListener(ev, render);
       els.capiEnabled.addEventListener(ev, render);
       els.capiEndpoint.addEventListener(ev, render);
+      if(els.testEventCode) els.testEventCode.addEventListener(ev, render);
     });
 
     /* ---- Prefill: leer el meta-config.js actual (sin eval, con regex) ---- */
@@ -665,7 +679,8 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
       function capiStr(key){ var m=capiBlock.match(new RegExp(key+'\\s*:\\s*["\\\']([^"\\\']*)["\\\']')); return m?m[1]:null; }
       return { pixelId:strOf('pixelId'), leadEvent:strOf('leadEvent'),
                domainVerification:strOf('domainVerification'), enabled:boolOf('enabled'),
-               capiEnabled:capiBool('enabled'), capiEndpoint:capiStr('endpoint') };
+               capiEnabled:capiBool('enabled'), capiEndpoint:capiStr('endpoint'),
+               testEventCode:capiStr('testEventCode') };
     }
     function prefill(){
       fetch('meta-config.js?ts=' + (new Date().getTime()), {cache:'no-store'})
@@ -679,6 +694,7 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
           if(c.enabled!=null) els.enabled.checked=c.enabled;
           if(c.capiEnabled!=null) els.capiEnabled.checked=c.capiEnabled;
           if(c.capiEndpoint!=null) els.capiEndpoint.value=c.capiEndpoint;
+          if(c.testEventCode!=null && els.testEventCode) els.testEventCode.value=c.testEventCode;
           render();
         })
         .catch(function(){ render(); });
@@ -847,7 +863,8 @@ input[type=file]::file-selector-button:hover{ border-color:var(--teal); }
         leadEvent: ($("leadEvent") && $("leadEvent").value) || "Lead",
         domainVerification: ($("domainVerification") && $("domainVerification").value.trim()) || "",
         capiEnabled: !!($("capiEnabled") && $("capiEnabled").checked),
-        capiEndpoint: ($("capiEndpoint") && $("capiEndpoint").value.trim()) || "/api/capi"
+        capiEndpoint: ($("capiEndpoint") && $("capiEndpoint").value.trim()) || "/api/capi",
+        testEventCode: ($("testEventCode") && $("testEventCode").value.trim()) || ""
       };
     }
 

@@ -30,7 +30,9 @@ window.VL_META = {
   // envía el evento a "endpoint"; el token vive en el servidor.
   capi: {
     enabled: true,
-    endpoint: "/api/capi"
+    endpoint: "/api/capi",
+    // Código de "Probar eventos" (Events Manager). Déjalo vacío en producción.
+    testEventCode: ""
   },
 
   // true = muestra mensajes de depuración en la consola del navegador.
