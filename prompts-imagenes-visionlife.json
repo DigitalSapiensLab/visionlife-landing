@@ -1,0 +1,1465 @@
+{
+  "proyecto": "VisionLife — Landing (visionlife.agenciadigitalsapiens.com)",
+  "version": "3.1",
+  "fecha": "2026-07",
+  "carpeta_destino": "visionlife-landing/public/assets/img/vl/",
+  "cambios_v3": "Sistema de color y FX extraído de las infografías reales de marca (Altos del Valle): doble temperatura (exteriores blue-hour azul-teal + interiores dorado cálido), arco de neón teal firma, streaks ámbar, glassmorphism, guirnaldas cálidas, señalética dorada. Se añade fx_biblioteca global, paleta jerarquizada con hex reales, y 3 imágenes nuevas (rooftop, áreas comunes, retrato testimonial).",
+  "formato_de_prompt": "Structured prompting JSON para fotos diseñadas: cada imagen se descompone en subject, environment, composition, camera, lighting, color_palette (hex reales de marca), mood, style, fx (nombres de la fx_biblioteca + descriptores libres en inglés) y parámetros por herramienta. El campo 'prompt' es la versión compilada lista para pegar.",
+  "como_usar": [
+    "OPCIÓN A (rápida): copia 'prompt' (inglés) y añade el 'aspect_ratio' con el parámetro de tu herramienta (Midjourney: --ar; Flux/SDXL: aspect; DALL·E: size más cercano).",
+    "OPCIÓN B (control fino): arma el prompt desde 'estructura' (subject + environment + composition + camera + lighting + color_palette + mood + style + fx).",
+    "ESTILO EXACTO DE MARCA: si tu herramienta soporta referencia de estilo (Midjourney --sref, Flux style reference), usa UNA de las infografías de VisionLife/Altos del Valle como imagen de referencia de estilo — clava la paleta y los FX al instante.",
+    "Usa 'negativo' como negative prompt (Flux/SDXL; en Midjourney con --no).",
+    "Personaje consistente: en las imágenes con 'personaje_consistente: true' usa el MISMO seed y/o imagen de referencia de personaje (--cref en MJ, IP-Adapter/reference en Flux).",
+    "Guarda cada archivo con el nombre EXACTO de 'archivo' (.png/.jpg/.webp; yo optimizo a WebP/AVIF), súbelas a 'carpeta_destino' y yo las cableo a su div.",
+    "NEGATIVE PROMPT FINAL = negativo_global + el negativo de la imagen, CONCATENADOS (el de la imagen no reemplaza al global).",
+    "Si compilas con la OPCIÓN B, traduce los valores de 'estructura' al inglés antes de armar el prompt (los modelos rinden mejor 100% en inglés).",
+    "Consistencia de PAREJA: --cref de Midjourney rinde mejor con UN rostro por referencia — idealmente crea un retrato de referencia por persona; en Flux usa IP-Adapter/PuLID por rostro. Acepta retoque facial en post como plan B."
+  ],
+  "estilo_global": {
+    "concepto": "Proptech + IA, premium, cinematográfico, emocional. Nocturno-elegante con neón teal y calidez dorada. Basado en las infografías reales de la marca.",
+    "regla_firma_dual_temperatura": "El contraste FIRMA de la marca: ambiente/exteriores en azul-teal frío (blue hour, neón) + emoción/interiores en dorado-ámbar cálido (golden hour, velas, guirnaldas). Casi toda foto debe combinar AMBAS temperaturas en la misma escena.",
+    "paleta_hex": {
+      "fondo_base": "#05070A",
+      "fondo_panel_glass": "#0A1014",
+      "azul_anochecer_cielo": [
+        "#0E1B2A",
+        "#1E3A5F",
+        "#2C4E73"
+      ],
+      "teal_neon_firma": [
+        "#22D3C6",
+        "#2DD4BF",
+        "#67E8F9"
+      ],
+      "verde_marca": "#4ADE80",
+      "verde_whatsapp": "#25D366",
+      "ambar_naranja": [
+        "#FB923C",
+        "#F59E0B"
+      ],
+      "dorado_luz_interior": [
+        "#FFB65C",
+        "#FF9E3D"
+      ],
+      "oro_senaletica_marca": "#C9A961",
+      "texto": "#F4F7FA",
+      "gradiente_titulares": [
+        "#F4F7FA",
+        "#4ADE80",
+        "#22D3C6",
+        "#FB923C"
+      ]
+    },
+    "fx_biblioteca": {
+      "neon_arc": "Arco/anillo de luz de neón teal (#22D3C6) que envuelve al edificio o elemento hero — el efecto FIRMA de la marca (se ve en todas las infografías).",
+      "light_streaks": "Streaks/destellos anamórficos ámbar-naranja (#FB923C) cayendo en diagonal o vertical sobre la escena.",
+      "glass_panel": "Paneles de vidrio esmerilado oscuro (#0A1014, 60% opacidad) con borde fino teal brillante y glow interior/exterior (glassmorphism).",
+      "dual_temp": "Mezcla de teal frío + ámbar/dorado cálido dentro de la misma escena (regla firma).",
+      "string_lights": "Guirnaldas de foquitos cálidos en terrazas/rooftops → bokeh dorado (como la terraza de las infografías).",
+      "candle_glow": "Velas y lámparas cálidas sobre mesas — interiores nocturnos íntimos.",
+      "screen_glow": "Pantalla de teléfono/tablet iluminando los rostros con tinte teal-verde suave.",
+      "connector_glow": "Líneas/flechas finas de luz teal conectando elementos (lenguaje visual de las infografías).",
+      "particles": "Partículas/sparkles sutiles flotando en el aire (verde-teal).",
+      "bloom_vignette": "Bloom suave en todos los neones + viñeta cinematográfica profunda con negros aplastados.",
+      "gold_signage": "Muro de señalética oscuro con logo/monograma DORADO (#C9A961) del proyecto, iluminado — SIN texto legible (la IA no debe escribir letras).",
+      "dusk_clouds": "Cielo blue-hour con nubes dramáticas azul-grisáceas detrás del edificio.",
+      "warm_bokeh": "Bokeh cálido dorado (luces de fondo desenfocadas).",
+      "film_grain": "Grano fílmico fino y sutil.",
+      "teal_rim_light": "Luz de contorno teal sutil sobre hombros/cabello (versión ligera del rim de marca)."
+    },
+    "fotografia": {
+      "personas": "Familias latinoamericanas multigeneracionales (pareja + hijos, o pareja madura) y parejas 28-45; reales y creíbles, piel con textura natural, nada de sonrisa de stock.",
+      "arquitectura": "Edificio residencial moderno de 8-10 pisos: piedra oscura + madera + vidrio, balcones con vegetación, jardines, muro de señalética con logo dorado, luces cálidas encendidas en balcones (arquetipo 'Altos del Valle').",
+      "hora": "Blue hour / golden hour / noche cálida. Evitar mediodía plano.",
+      "camara_defecto": {
+        "lente": "35mm",
+        "apertura": "f/1.8",
+        "angulo": "eye-level",
+        "enfoque": "sujeto nítido, fondo bokeh"
+      }
+    },
+    "calidad_por_defecto": "photorealistic, ultra-detailed, high dynamic range, 8k, sharp focus"
+  },
+  "negativo_global": "text, letters, typography, watermark, logo with readable words, ui buttons, deformed hands, extra fingers, mutated limbs, fused fingers, low quality, blurry, jpeg artifacts, cartoon, illustration, plastic skin, waxy skin, oversaturated, HDR halos, cheesy stock-photo smile, cluttered, messy, tilted horizon, distorted architecture, duplicate people, flat midday lighting",
+  "parametros_por_herramienta": {
+    "midjourney": "Añade: '--ar {aspect_ratio} --style raw --v 6.1'. Usa '--q 2' SOLO en fondos/arquitectura (en fotos con personas el default conserva mejor manos y rostros). Estilo de marca exacto: '--sref {url_infografia_visionlife} --sw 200'. Personaje consistente: '--cref {url_referencia} --cw 80' — OJO: --cref rinde mejor con UN rostro por referencia; crea un retrato de referencia por persona o verifica ambos rostros. Negativos: '--no text, watermark, deformed hands'.",
+    "flux_sdxl": "aspect_ratio del campo; steps 30-40; guidance (Flux) ~3.5 / CFG (SDXL) 5-7; sampler DPM++ 2M Karras; consistencia: mismo seed + reference image (IP-Adapter); estilo: style-reference con una infografía de marca.",
+    "dalle3": "Pide el size soportado más cercano (1024x1024, 1792x1024, 1024x1792) y RECORTA al aspect_ratio final; estilo natural; describe la paleta hex en el prompt. OJO: DALL·E 3 NO soporta seed ni referencia de personaje — NO lo uses para las imágenes con personaje_consistente:true (usa Midjourney --cref o Flux seed + IP-Adapter)."
+  },
+  "imagenes": [
+    {
+      "archivo": "hero-bg-ambient.webp",
+      "seccion": "HERO",
+      "div": "Fondo ambiental full-bleed detrás del titular (#inicio)",
+      "rol": "background",
+      "formato": "webp/jpg",
+      "aspect_ratio": "16:9",
+      "dimensiones_px": "2560x1440",
+      "prompt": "Cinematic dark ambient hero background for a premium proptech brand: out-of-focus modern residential tower at blue hour with dramatic navy dusk clouds, a sweeping teal neon light arc curving around the building on the right, warm golden window lights glowing on balconies, diagonal amber anamorphic light streaks, soft bokeh Lima skyline, deep charcoal atmosphere with large empty negative space center-left for headline text. photorealistic, cinematic lighting, high dynamic range, 8k",
+      "estructura": {
+        "subject": "residential tower silhouette at blue hour + teal neon arc (no people)",
+        "environment": "Lima skyline at dusk, dramatic navy clouds, city bokeh",
+        "composition": "wide; edificio al tercio derecho envuelto por el arco; gran espacio negativo centro-izquierda para el titular",
+        "camera": {
+          "toma": "wide establishing",
+          "lente": "24-35mm",
+          "apertura": "f/2.8",
+          "angulo": "eye-level, leve contrapicado",
+          "enfoque": "soft general, bokeh pesado"
+        },
+        "lighting": "blue hour frío como base + ventanas/balcones dorados cálidos + arco neón teal (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#0E1B2A",
+          "#1E3A5F",
+          "#22D3C6",
+          "#FFB65C",
+          "#FB923C"
+        ],
+        "mood": "elegante, nocturno, aspiracional, high-end",
+        "style": "cinematic architectural photography",
+        "fx": [
+          "neon_arc",
+          "light_streaks",
+          "dusk_clouds",
+          "dual_temp",
+          "bloom_vignette",
+          "particles"
+        ],
+        "post_processing": "grade fílmico oscuro, negros aplastados, grano fino",
+        "quality": "8k, ultra-detailed, high dynamic range"
+      },
+      "negativo": "people, faces, text, logo, ui, bright daylight, busy, cluttered, low quality",
+      "parametros": {
+        "midjourney": "--ar 16:9 --style raw --v 6.1 --q 2 --sref {infografia} --sw 200",
+        "flux_sdxl": "aspect 16:9, steps 35, guidance 3.5, style-ref infografía",
+        "dalle3": "size 1792x1024, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "El arco de neón teal es el efecto FIRMA (aparece en todas las infografías). Muy oscuro con espacio libre centro-izquierda; lleva overlay CSS encima."
+    },
+    {
+      "archivo": "hero-device-screen.webp",
+      "seccion": "HERO",
+      "div": "Pantalla del 'device' (mockup de teléfono) — resultado estrella del producto",
+      "rol": "producto/mockup-contenido",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:5",
+      "dimensiones_px": "1080x1350",
+      "prompt": "Photorealistic warm aspirational photo of a happy Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — standing together in a premium modern living room at dusk, floor-to-ceiling windows showing a blue-hour city skyline behind them, warm golden interior lamps contrasting with the cool teal-blue evening light outside, subtle teal rim light on their shoulders, genuinely moved and at home, couple in the lower two-thirds of the frame with clean negative space at the top. editorial real-estate lifestyle, shallow depth of field, 35mm, cinematic, 8k",
+      "estructura": {
+        "subject": "pareja peruana (finales de los 30) de pie, emocionados, sensación 'este es nuestro hogar'",
+        "environment": "sala premium al anochecer; ventanal con skyline blue-hour detrás",
+        "composition": "plano medio, pareja levemente descentrada, aire arriba para la UI del device",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida, fondo suave"
+        },
+        "lighting": "lámparas doradas cálidas (key) + azul-teal frío del ventanal (ambiente) + rim teal sutil (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#0E1B2A",
+          "#FFB65C",
+          "#22D3C6",
+          "#F4F7FA"
+        ],
+        "mood": "aspiracional, emocional, cálido, premium",
+        "style": "editorial real-estate lifestyle",
+        "fx": [
+          "teal_rim_light",
+          "dual_temp",
+          "bloom_vignette",
+          "particles",
+          "warm_bokeh",
+          "film_grain"
+        ],
+        "post_processing": "grade fílmico cálido con sombras frías, piel realista",
+        "quality": "8k, ultra-detailed, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, extra fingers, stock smile, cluttered, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:5 --style raw --v 6.1",
+        "flux_sdxl": "aspect 4:5, steps 36, guidance 3.5, reference de pareja",
+        "dalle3": "size 1024x1792 y recortar a 4:5 (1024x1280), natural",
+        "seed": "FIJA — esta imagen CREA a la pareja: su mejor variación es la {ref} de las otras 11"
+      },
+      "personaje_consistente": true,
+      "notas": "El 'así te verías viviendo aquí'. PRIMERA de la serie: genérala SIN --cref (aún no existe la referencia), elige la mejor variación y usa su URL/imagen como {ref} en las otras 11 imágenes con personaje_consistente (hero-card-foto-prospecto, insight-después, 7 demos, página personalizada y WhatsApp)."
+    },
+    {
+      "archivo": "hero-card-foto-prospecto.webp",
+      "seccion": "HERO",
+      "div": "Tarjeta flotante 'Foto del prospecto'",
+      "rol": "thumbnail-tarjeta",
+      "formato": "webp/png",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "600x600",
+      "prompt": "Natural friendly headshot of a Peruvian person in their 30s smiling softly, neutral modern indoor background softly blurred, soft warm key light with a faint teal edge light, looks like a real selfie uploaded by a prospect, authentic and candid. photorealistic, shallow depth of field, 8k",
+      "estructura": {
+        "subject": "uno de la pareja, solo — vibra de selfie cotidiana auténtica",
+        "environment": "interior moderno neutro, desenfocado",
+        "composition": "retrato centrado cabeza-hombros",
+        "camera": {
+          "toma": "close-up portrait",
+          "lente": "50mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "rostro nítido"
+        },
+        "lighting": "key cálida suave + edge light teal tenue (dual_temp sutil)",
+        "color_palette": [
+          "#0A1014",
+          "#F4F7FA",
+          "#22D3C6",
+          "#FFB65C"
+        ],
+        "mood": "auténtico, cercano",
+        "style": "retrato lifestyle natural (tipo selfie, no glamour)",
+        "fx": [
+          "dual_temp",
+          "shallow depth of field",
+          "film_grain",
+          "natural skin texture"
+        ],
+        "post_processing": "grade neutro fiel a la piel",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, heavy makeup, glamour, stock smile, deformed features, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 90",
+        "flux_sdxl": "aspect 1:1, steps 32, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "mismo personaje de la pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "La foto 'que sube el prospecto'. Mismo rostro que la pareja del hero."
+    },
+    {
+      "archivo": "hero-card-proyecto.webp",
+      "seccion": "HERO",
+      "div": "Tarjeta flotante 'Proyecto elegido'",
+      "rol": "thumbnail-tarjeta",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "600x600",
+      "prompt": "Modern premium residential building at blue hour, 8-10 stories, dark stone wood and glass facade, balconies with lush plants and warm golden lights on, dramatic navy dusk clouds behind, dark entrance signage wall with an abstract golden leaf emblem, landscaped gardens, subtle teal neon arc of light sweeping around the tower. photorealistic architectural photography, cinematic, 8k",
+      "estructura": {
+        "subject": "edificio residencial moderno arquetipo 'Altos del Valle' (sin personas)",
+        "environment": "calle arbolada premium, jardines, blue hour con nubes dramáticas",
+        "composition": "ángulo héroe 3/4 de la fachada, muro de señalética dorada abajo",
+        "camera": {
+          "toma": "arquitectónica",
+          "lente": "24mm tilt-shift",
+          "apertura": "f/8",
+          "angulo": "eye-level, verticales rectas",
+          "enfoque": "todo nítido"
+        },
+        "lighting": "blue hour frío + balcones/ventanas doradas cálidas + arco neón teal (dual_temp firma)",
+        "color_palette": [
+          "#0E1B2A",
+          "#1E3A5F",
+          "#22D3C6",
+          "#FFB65C",
+          "#C9A961"
+        ],
+        "mood": "premium, deseable, vivo",
+        "style": "fotografía arquitectónica cinematográfica (como las infografías)",
+        "fx": [
+          "neon_arc",
+          "dusk_clouds",
+          "gold_signage",
+          "dual_temp",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade nocturno con ventanas cálidas brillantes",
+        "quality": "8k, photorealistic archviz"
+      },
+      "negativo": "readable text, letters, watermark, people, cars clutter, distorted architecture, flat daylight, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --sref {infografia} --sw 200 --q 2",
+        "flux_sdxl": "aspect 1:1, steps 34, style-ref infografía",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "GUARDAR (mismo edificio puede reusarse en casos/fondos)"
+      },
+      "personaje_consistente": false,
+      "notas": "Réplica del edificio de las infografías: blue hour + nubes + señalética dorada + arco teal. El monograma dorado debe ser abstracto (sin letras legibles)."
+    },
+    {
+      "archivo": "dolor-lead-frio.webp",
+      "seccion": "DOLOR (El problema real de la captación)",
+      "div": "Imagen puntual junto al texto del problema",
+      "rol": "editorial/conceptual",
+      "formato": "webp/jpg",
+      "aspect_ratio": "3:2",
+      "dimensiones_px": "1600x1067",
+      "prompt": "Conceptual editorial photo of the cold-lead problem: a tired real-estate advisor at a dim trade-fair booth at end of day, stack of blurred generic paper forms and a phone with a dim out-of-focus list interface, flat cold blue-grey fluorescent lighting, emotionally flat impersonal atmosphere, desaturated muted tones, lonely feel. cinematic documentary editorial, shallow depth of field, 8k",
+      "estructura": {
+        "subject": "asesor cansado + pila de formularios impersonales + teléfono con datos planos",
+        "environment": "stand de feria apagándose al final del día",
+        "composition": "asesor a un lado, espacio vacío frío, papeles en primer plano",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "asesor/papeles nítidos"
+        },
+        "lighting": "fluorescente fría plana azul-gris, SIN calidez (rompe la dual_temp a propósito)",
+        "color_palette": [
+          "#0E141A",
+          "#26333D",
+          "#556570",
+          "#8A98A2"
+        ],
+        "mood": "plano, impersonal, solitario, desconectado",
+        "style": "documental editorial (intencionalmente frío)",
+        "fx": [
+          "desaturated cold grade",
+          "flat fluorescent light",
+          "fine grain",
+          "muted vignette"
+        ],
+        "post_processing": "grade frío desaturado, sombras lavadas (apagado)",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, happy, warm tones, golden light, teal glow, neon, cheerful, cozy, deformed hands, extra fingers, fused fingers, mutated limbs, low quality",
+      "parametros": {
+        "midjourney": "--ar 3:2 --style raw --v 6.1",
+        "flux_sdxl": "aspect 3:2, steps 34, guidance 3.5",
+        "dalle3": "size 1792x1024 y recortar a 3:2, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Una de las DOS imágenes que rompen la paleta a propósito (la otra: insight-antes-render-generico): fría, sin neón ni dorado. El contraste con el resto vende la transformación."
+    },
+    {
+      "archivo": "insight-antes-render-generico.webp",
+      "seccion": "INSIGHT EMOCIONAL (before/after)",
+      "div": "Lado 'Antes · render genérico IA'",
+      "rol": "before",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:5",
+      "dimensiones_px": "1080x1350",
+      "prompt": "Generic impersonal empty modern living room 3D render, perfectly staged but soulless and anonymous, flat even neutral lighting, slightly cold grey tones, catalog render where nobody lives. clean architectural visualization, 8k",
+      "estructura": {
+        "subject": "sala staging vacía (sin personas, sin personalidad)",
+        "environment": "departamento moderno, staging genérico de catálogo",
+        "composition": "frontal simétrica — MISMO encuadre que el 'después'",
+        "camera": {
+          "toma": "interior wide frontal",
+          "lente": "28mm",
+          "apertura": "f/5.6",
+          "angulo": "eye-level frontal",
+          "enfoque": "todo nítido"
+        },
+        "lighting": "render plana neutra, ligeramente fría",
+        "color_palette": [
+          "#C9CCCE",
+          "#9AA3A9",
+          "#B7BCBF",
+          "#D8D3C6"
+        ],
+        "mood": "sin alma, anónimo, frío",
+        "style": "archviz limpio (intencionalmente estéril)",
+        "fx": [
+          "flat even lighting",
+          "cool sterile grade",
+          "uniform deep focus"
+        ],
+        "post_processing": "grade neutro-frío de render",
+        "quality": "8k, clean render"
+      },
+      "negativo": "people, text, watermark, warmth, golden light, plants, teal glow, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:5 --style raw --v 6.1",
+        "flux_sdxl": "aspect 4:5, steps 34",
+        "dalle3": "size 1024x1792 y recortar a 4:5 (1024x1280), natural",
+        "seed": "libre — GUARDA la imagen final: es la BASE img2img del después"
+      },
+      "personaje_consistente": false,
+      "notas": "Par comparativo: genera este ANTES primero. El después se crea EDITANDO esta imagen (img2img / Vary Region), NO por seed compartido (mismo seed + prompt distinto NO reproduce la misma sala)."
+    },
+    {
+      "archivo": "insight-despues-viviendo-sala.webp",
+      "seccion": "INSIGHT EMOCIONAL (before/after)",
+      "div": "Lado 'Después · tú viviendo en la sala'",
+      "rol": "after",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:5",
+      "dimensiones_px": "1080x1350",
+      "prompt": "The exact same modern living room, now warm and alive at dusk: a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — relaxing on the sofa laughing, warm golden lamps and candles glowing, plants and personal touches, cool teal-blue evening light entering from the window behind, subtle teal rim light, deeply personal this-is-our-home feeling. photorealistic editorial lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "la pareja viviendo el espacio — risa, pertenencia",
+        "environment": "la MISMA sala del 'antes', ahora personalizada (plantas, vida), al anochecer",
+        "composition": "mismo encuadre del 'antes', pareja en el sofá al centro",
+        "camera": {
+          "toma": "interior wide frontal",
+          "lente": "28mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level frontal",
+          "enfoque": "pareja nítida, sala suave"
+        },
+        "lighting": "lámparas doradas + velas (key cálida) + azul-teal del ventanal (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#FB923C",
+          "#22D3C6",
+          "#0E1B2A"
+        ],
+        "mood": "cálido, vivo, emocional, hogar",
+        "style": "editorial lifestyle",
+        "fx": [
+          "dual_temp",
+          "candle_glow",
+          "bloom_vignette",
+          "warm_bokeh",
+          "film_grain",
+          "teal_rim_light"
+        ],
+        "post_processing": "grade fílmico cálido con sombras frías",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, empty room, cold flat tones, stock smile, deformed hands, low quality",
+      "parametros": {
+        "midjourney": "Editor / Vary Region sobre la imagen del antes; luego --ar 4:5 --style raw --v 6.1 --cref {ref} --cw 80",
+        "flux_sdxl": "img2img sobre el antes (denoise 0.45-0.6), aspect 4:5, steps 36, reference de pareja (IP-Adapter)",
+        "dalle3": "size 1024x1792 y recortar a 4:5 (1024x1280), natural",
+        "seed": "NO usar seed: partir de la imagen del antes (img2img) + pareja con {ref}"
+      },
+      "personaje_consistente": true,
+      "notas": "El después se genera EDITANDO la imagen del antes (img2img / inpainting) para conservar sala y encuadre idénticos; la pareja entra con {ref}. Par comparativo exacto."
+    },
+    {
+      "archivo": "quees-icon-captacion.png",
+      "seccion": "QUÉ ES VISIONLIFE (grid de 4)",
+      "div": "Icono 'Captación de leads'",
+      "rol": "icono",
+      "formato": "png (fondo transparente)",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "512x512",
+      "prompt": "Minimalist premium 3D frosted-glass icon of a lead-capture form with a person marker, dark smoked glass with a thin glowing teal border and inner teal-to-green gradient glow, soft studio reflections, isolated on a solid very dark background (#05070A), modern glassmorphism app-icon aesthetic matching a dark proptech brand. clean high-end 3d render, solid dark background",
+      "estructura": {
+        "subject": "icono glass: formulario de captura + marcador de persona",
+        "environment": "lienzo transparente (alpha)",
+        "composition": "icono único centrado, márgenes uniformes",
+        "camera": {
+          "render": "3D product render",
+          "angulo": "frontal 3/4",
+          "enfoque": "nítido"
+        },
+        "lighting": "estudio suave 3 puntos + glow interior degradado",
+        "color_palette": [
+          "#0A1014",
+          "#22D3C6",
+          "#4ADE80"
+        ],
+        "mood": "limpio, premium, tech",
+        "style": "glassmorphism 3D (como los paneles de las infografías)",
+        "fx": [
+          "glass_panel",
+          "connector_glow",
+          "bloom_vignette sutil",
+          "fondo sólido #05070A (extraer en post → PNG alpha)"
+        ],
+        "post_processing": "limpio, sin sombra horneada sobre fondo opaco",
+        "quality": "high-end 3d render, crisp"
+      },
+      "negativo": "text, watermark, opaque background, baked drop shadow, photorealistic people, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --seed {seed_iconos}",
+        "flux_sdxl": "aspect 1:1, steps 32, seed {seed_iconos}",
+        "dalle3": "size 1024x1024 (DALL·E 3 no soporta alpha: generar sobre fondo #05070A sólido)",
+        "seed": "{seed_iconos} — el MISMO número en los 4 iconos"
+      },
+      "personaje_consistente": false,
+      "notas": "Vidrio ahumado oscuro + borde teal glow (estética glassmorphism de las infografías). Mismo estilo/seed en los 4. IMPORTANTE: ninguna IA entrega canal alpha fiable — genera sobre fondo sólido #05070A y remueve el fondo en post (rembg/Photoshop) para obtener el PNG transparente."
+    },
+    {
+      "archivo": "quees-icon-ia.png",
+      "seccion": "QUÉ ES VISIONLIFE (grid de 4)",
+      "div": "Icono 'Visualización con IA'",
+      "rol": "icono",
+      "formato": "png (fondo transparente)",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "512x512",
+      "prompt": "Minimalist premium 3D frosted-glass icon combining an apartment/house shape with an AI neural spark, dark smoked glass with thin glowing teal border and inner teal-to-green gradient glow, soft reflections, solid very dark background (#05070A), glassmorphism app-icon aesthetic. clean 3d render, solid dark background",
+      "estructura": {
+        "subject": "icono glass: casa/departamento + chispa neural IA",
+        "environment": "lienzo transparente",
+        "composition": "icono único centrado",
+        "camera": {
+          "render": "3D product render",
+          "angulo": "frontal 3/4",
+          "enfoque": "nítido"
+        },
+        "lighting": "estudio suave + glow interior degradado",
+        "color_palette": [
+          "#0A1014",
+          "#22D3C6",
+          "#4ADE80",
+          "#67E8F9"
+        ],
+        "mood": "limpio, inteligente, tech",
+        "style": "glassmorphism 3D",
+        "fx": [
+          "glass_panel",
+          "particles",
+          "bloom_vignette sutil",
+          "fondo sólido #05070A (extraer en post → PNG alpha)"
+        ],
+        "post_processing": "limpio",
+        "quality": "high-end 3d render"
+      },
+      "negativo": "text, watermark, opaque background, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --seed {seed_iconos}",
+        "flux_sdxl": "aspect 1:1, steps 32, seed {seed_iconos}",
+        "dalle3": "size 1024x1024 (DALL·E 3 no soporta alpha: generar sobre fondo #05070A sólido)",
+        "seed": "{seed_iconos} — el MISMO número en los 4 iconos"
+      },
+      "personaje_consistente": false,
+      "notas": "Mismo estilo que los otros 3 iconos. IMPORTANTE: ninguna IA entrega canal alpha fiable — genera sobre fondo sólido #05070A y remueve el fondo en post (rembg/Photoshop) para obtener el PNG transparente."
+    },
+    {
+      "archivo": "quees-icon-personalizacion.png",
+      "seccion": "QUÉ ES VISIONLIFE (grid de 4)",
+      "div": "Icono 'Personalización comercial'",
+      "rol": "icono",
+      "formato": "png (fondo transparente)",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "512x512",
+      "prompt": "Minimalist premium 3D frosted-glass icon of a personalization tag/benefit badge with a subtle person silhouette, dark smoked glass with thin glowing border and inner amber-to-green gradient glow, soft reflections, solid very dark background (#05070A), glassmorphism app-icon aesthetic. clean 3d render, solid dark background",
+      "estructura": {
+        "subject": "icono glass: etiqueta/beneficio + silueta de persona",
+        "environment": "lienzo transparente",
+        "composition": "icono único centrado",
+        "camera": {
+          "render": "3D product render",
+          "angulo": "frontal 3/4",
+          "enfoque": "nítido"
+        },
+        "lighting": "estudio suave + glow degradado ámbar→verde",
+        "color_palette": [
+          "#0A1014",
+          "#FB923C",
+          "#4ADE80"
+        ],
+        "mood": "limpio, personal, premium",
+        "style": "glassmorphism 3D",
+        "fx": [
+          "glass_panel",
+          "light_streaks sutil",
+          "bloom_vignette sutil",
+          "fondo sólido #05070A (extraer en post → PNG alpha)"
+        ],
+        "post_processing": "limpio",
+        "quality": "high-end 3d render"
+      },
+      "negativo": "text, watermark, opaque background, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --seed {seed_iconos}",
+        "flux_sdxl": "aspect 1:1, steps 32, seed {seed_iconos}",
+        "dalle3": "size 1024x1024 (DALL·E 3 no soporta alpha: generar sobre fondo #05070A sólido)",
+        "seed": "{seed_iconos} — el MISMO número en los 4 iconos"
+      },
+      "personaje_consistente": false,
+      "notas": "Acento cálido ámbar (como los paneles de promoción de las infografías). IMPORTANTE: ninguna IA entrega canal alpha fiable — genera sobre fondo sólido #05070A y remueve el fondo en post (rembg/Photoshop) para obtener el PNG transparente."
+    },
+    {
+      "archivo": "quees-icon-whatsapp.png",
+      "seccion": "QUÉ ES VISIONLIFE (grid de 4)",
+      "div": "Icono 'Seguimiento por WhatsApp'",
+      "rol": "icono",
+      "formato": "png (fondo transparente)",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "512x512",
+      "prompt": "Minimalist premium 3D frosted-glass icon of a chat bubble containing a small photo (sharing a personalized picture), dark smoked glass with thin glowing border and inner green gradient glow, soft reflections, solid very dark background (#05070A), glassmorphism app-icon aesthetic. clean 3d render, solid dark background",
+      "estructura": {
+        "subject": "icono glass: burbuja de chat con foto pequeña dentro",
+        "environment": "lienzo transparente",
+        "composition": "icono único centrado",
+        "camera": {
+          "render": "3D product render",
+          "angulo": "frontal 3/4",
+          "enfoque": "nítido"
+        },
+        "lighting": "estudio suave + glow verde",
+        "color_palette": [
+          "#0A1014",
+          "#25D366",
+          "#4ADE80",
+          "#22D3C6"
+        ],
+        "mood": "limpio, cercano, tech",
+        "style": "glassmorphism 3D",
+        "fx": [
+          "glass_panel",
+          "connector_glow",
+          "bloom_vignette sutil",
+          "fondo sólido #05070A (extraer en post → PNG alpha)"
+        ],
+        "post_processing": "limpio",
+        "quality": "high-end 3d render"
+      },
+      "negativo": "text, watermark, official whatsapp logo, opaque background, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --seed {seed_iconos}",
+        "flux_sdxl": "aspect 1:1, steps 32, seed {seed_iconos}",
+        "dalle3": "size 1024x1024 (DALL·E 3 no soporta alpha: generar sobre fondo #05070A sólido)",
+        "seed": "{seed_iconos} — el MISMO número en los 4 iconos"
+      },
+      "personaje_consistente": false,
+      "notas": "Verde WhatsApp #25D366 como glow, pero chat genérico (NO el logo oficial). IMPORTANTE: ninguna IA entrega canal alpha fiable — genera sobre fondo sólido #05070A y remueve el fondo en post (rembg/Photoshop) para obtener el PNG transparente."
+    },
+    {
+      "archivo": "demo-result-sala.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Sala'",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic aspirational photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — relaxing together on a sofa in a premium modern living room at dusk, warm golden floor lamps glowing, large window behind showing cool blue-hour city view with mountains, plants, subtle teal rim light, at home and happy. editorial real-estate lifestyle, shallow depth of field, 35mm, cinematic, 8k",
+      "estructura": {
+        "subject": "la pareja relajada en el sofá, en casa",
+        "environment": "sala moderna premium al anochecer, vista azul de ciudad/montañas por el ventanal",
+        "composition": "cuadrada, pareja centrada, sala alrededor",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "lámparas doradas (key) + azul-teal del ventanal (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#0E1B2A",
+          "#22D3C6"
+        ],
+        "mood": "cálido, aspiracional, hogar",
+        "style": "editorial lifestyle (como los tiles SALA de las infografías)",
+        "fx": [
+          "dual_temp",
+          "warm_bokeh",
+          "teal_rim_light",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade cálido con sombras frías",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "Serie demo: misma pareja en cada ambiente, siempre con doble temperatura."
+    },
+    {
+      "archivo": "demo-result-cocina.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Cocina'",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — cooking together at a modern kitchen island at night, warm golden pendant lights over the island, dark premium cabinetry, a window with cool teal-blue city night in the background, laughing while preparing dinner, cozy and alive. editorial lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "pareja cocinando junta en la isla",
+        "environment": "cocina moderna nocturna, gabinetes oscuros premium",
+        "composition": "cuadrada, pareja en la isla",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "colgantes dorados (key) + noche azul-teal por la ventana (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#FB923C",
+          "#0E1B2A",
+          "#22D3C6"
+        ],
+        "mood": "juguetón, cálido, hogareño",
+        "style": "editorial lifestyle (tile COCINA de las infografías)",
+        "fx": [
+          "dual_temp",
+          "warm_bokeh",
+          "steam sutil",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade cálido nocturno",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "Misma pareja, cocina nocturna cálida."
+    },
+    {
+      "archivo": "demo-result-terraza.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Terraza'",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — sharing drinks on a cozy private terrace at night, warm string lights (fairy lights) overhead, candles on the table, lush potted plants, cool blue-hour city bokeh and mountains in the background, golden warm light on their faces, intimate and celebratory. editorial lifestyle, shallow depth of field, 35mm, cinematic, 8k",
+      "estructura": {
+        "subject": "pareja compartiendo en la terraza de noche",
+        "environment": "terraza privada con guirnaldas, velas, plantas; ciudad azul detrás",
+        "composition": "cuadrada, pareja en primer plano, bokeh urbano de fondo",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida, ciudad bokeh"
+        },
+        "lighting": "guirnaldas + velas doradas (key) + blue hour frío de fondo (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#FB923C",
+          "#0E1B2A",
+          "#22D3C6"
+        ],
+        "mood": "íntimo, celebratorio, mágico",
+        "style": "editorial lifestyle (la terraza icónica de las infografías)",
+        "fx": [
+          "string_lights",
+          "candle_glow",
+          "dual_temp",
+          "warm_bokeh",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade cálido nocturno con fondo frío",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "La terraza con guirnaldas es LA escena icónica de las infografías — replicarla."
+    },
+    {
+      "archivo": "demo-result-lobby.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Lobby'",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — walking through an elegant modern residential lobby at night, double-height ceiling, warm designer wall sconces and gold accents, dark stone and wood, subtle teal ambient glow from architectural lighting, confident and at home. editorial architectural lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "pareja caminando por el lobby, seguros",
+        "environment": "lobby doble altura, piedra oscura + madera + acentos dorados",
+        "composition": "cuadrada, pareja al centro, arquitectura enmarcando",
+        "camera": {
+          "toma": "medium-wide",
+          "lente": "35mm",
+          "apertura": "f/2.2",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "apliques dorados cálidos + glow teal arquitectónico (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#C9A961",
+          "#22D3C6"
+        ],
+        "mood": "seguro, premium, acogedor",
+        "style": "editorial architectural lifestyle",
+        "fx": [
+          "dual_temp",
+          "warm gold accents",
+          "reflections piso/vidrio",
+          "warm_bokeh",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade premium cálido",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "Misma pareja, lobby con acentos dorados de marca."
+    },
+    {
+      "archivo": "demo-result-dormitorio.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Dormitorio'",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic tender photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — relaxing in a serene modern bedroom at night, warm golden bedside lamps, premium bedding, large window showing cool blue-hour city and mountains, faint teal rim light, intimate calm and elegant. editorial lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "pareja relajada, momento tierno (elegante, familiar)",
+        "environment": "dormitorio sereno nocturno, ventanal con ciudad azul",
+        "composition": "cuadrada, pareja en zona de cama, aire",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "veladores dorados (key) + blue hour del ventanal (dual_temp, como el tile DORMITORIO de las infografías)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#0E1B2A",
+          "#22D3C6"
+        ],
+        "mood": "íntimo, calmo, cálido",
+        "style": "editorial lifestyle",
+        "fx": [
+          "dual_temp",
+          "candle_glow",
+          "warm_bokeh",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade suave cálido",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, suggestive, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "Misma pareja, dormitorio nocturno con veladores. Elegante/familiar."
+    },
+    {
+      "archivo": "demo-result-rooftop.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Rooftop' (área común)",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — at a premium communal rooftop lounge at blue hour, modern fire pit and outdoor sofas, string lights, panoramic Lima skyline glowing behind glass railings, warm golden light on the couple contrasting with the cool teal-blue dusk, relaxed and aspirational. editorial lifestyle, shallow depth of field, 35mm, cinematic, 8k",
+      "estructura": {
+        "subject": "pareja en el rooftop lounge común",
+        "environment": "rooftop premium: fire pit, sofás exteriores, barandas de vidrio, skyline",
+        "composition": "cuadrada, pareja primer plano, skyline con profundidad",
+        "camera": {
+          "toma": "medium-wide",
+          "lente": "35mm",
+          "apertura": "f/2.2",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida, ciudad bokeh"
+        },
+        "lighting": "fire pit + guirnaldas doradas (key) + blue hour panorámico (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#FB923C",
+          "#0E1B2A",
+          "#1E3A5F",
+          "#22D3C6"
+        ],
+        "mood": "aspiracional, expansivo, social",
+        "style": "editorial lifestyle",
+        "fx": [
+          "string_lights",
+          "dual_temp",
+          "dusk_clouds",
+          "warm_bokeh skyline",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade dorado con cielo azul profundo",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "NUEVA (v3): el demo del diseño tiene chip 'Rooftop' — distinto de la terraza privada."
+    },
+    {
+      "archivo": "demo-result-comunes.webp",
+      "seccion": "CÓMO FUNCIONA — Demo interactivo (resultados)",
+      "div": "Resultado generado: ambiente 'Áreas comunes' (coworking/lounge)",
+      "rol": "demo-resultado",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "1080x1080",
+      "prompt": "Photorealistic photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — enjoying a premium residential coworking lounge in the evening, one on a laptop and the other with coffee, warm wood and golden pendant lighting, floor-to-ceiling glass showing cool blue-hour gardens outside, subtle teal accent lighting, modern and comfortable. editorial lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "pareja usando el coworking/lounge del edificio",
+        "environment": "área común premium: madera cálida, lounge, vidrio a jardines",
+        "composition": "cuadrada, pareja en zona lounge",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "colgantes dorados (key) + jardín azul blue-hour por el vidrio + acento teal (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#0E1B2A",
+          "#22D3C6",
+          "#4ADE80"
+        ],
+        "mood": "productivo, cómodo, moderno",
+        "style": "editorial lifestyle",
+        "fx": [
+          "dual_temp",
+          "screen_glow sutil (laptop)",
+          "warm_bokeh",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade cálido equilibrado",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1 --cref {ref} --cw 85",
+        "flux_sdxl": "aspect 1:1, steps 36, reference",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "NUEVA (v3): cubre el chip 'Áreas comunes' del demo."
+    },
+    {
+      "archivo": "casos-feria.webp",
+      "seccion": "CASOS DE USO / ESCENARIOS",
+      "div": "Escenario 'Feria inmobiliaria'",
+      "rol": "escenario",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:3",
+      "dimensiones_px": "1440x1080",
+      "prompt": "Photorealistic photo of a sleek dark real-estate fair booth at night where a smiling prospect family uses a tablet, the screen glowing teal-green on their faces, thin teal neon edge lighting on the booth structure, warm golden spotlights, dynamic event bokeh in the background. editorial event photography, shallow depth of field, cinematic, 8k",
+      "estructura": {
+        "subject": "familia prospecto + tablet en stand de feria",
+        "environment": "stand oscuro premium con bordes de neón teal, feria de noche",
+        "composition": "3/4, sujetos a la derecha, contexto del stand a la izquierda",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/2.2",
+          "angulo": "eye-level",
+          "enfoque": "sujetos nítidos"
+        },
+        "lighting": "spots dorados cálidos + neón teal del stand + glow de pantalla (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#22D3C6",
+          "#4ADE80",
+          "#FFB65C"
+        ],
+        "mood": "dinámico, moderno, conectado",
+        "style": "editorial event photography",
+        "fx": [
+          "screen_glow",
+          "teal neon edge lighting (booth)",
+          "dual_temp",
+          "bokeh de feria",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade con tinte de marca",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, real brand logos, deformed hands, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:3 --style raw --v 6.1 --sref {infografia}",
+        "flux_sdxl": "aspect 4:3, steps 34",
+        "dalle3": "size 1792x1024 y recortar, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Familia (no solo pareja) — las infografías muestran familias multigeneracionales."
+    },
+    {
+      "archivo": "casos-caseta.webp",
+      "seccion": "CASOS DE USO / ESCENARIOS",
+      "div": "Escenario 'Caseta / sala de ventas'",
+      "rol": "escenario",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:3",
+      "dimensiones_px": "1440x1080",
+      "prompt": "Photorealistic photo of a real-estate advisor showing a tablet to a mature Peruvian couple in a modern dark sales showroom in the evening, the tablet screen glowing softly on their engaged faces, warm golden accent lamps, subtle teal architectural lighting, project scale model blurred in the background, trusting mood. editorial business lifestyle, shallow depth of field, 8k",
+      "estructura": {
+        "subject": "asesora + pareja madura sobre una tablet (como la escena de las infografías)",
+        "environment": "sala de ventas moderna oscura con maqueta desenfocada",
+        "composition": "3/4, los tres inclinados hacia la tablet",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "rostros + tablet nítidos"
+        },
+        "lighting": "lámparas doradas cálidas + teal arquitectónico + screen glow (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#22D3C6",
+          "#C9A961"
+        ],
+        "mood": "confianza, profesional, cálido",
+        "style": "editorial business lifestyle",
+        "fx": [
+          "screen_glow",
+          "dual_temp",
+          "warm_bokeh",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade profesional cálido",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, real brand logos, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:3 --style raw --v 6.1 --sref {infografia}",
+        "flux_sdxl": "aspect 4:3, steps 34",
+        "dalle3": "size 1792x1024 y recortar, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Réplica del momento asesora+tablet+pareja de las infografías 1 y 4."
+    },
+    {
+      "archivo": "casos-digital.webp",
+      "seccion": "CASOS DE USO / ESCENARIOS",
+      "div": "Escenario 'Campañas digitales (Meta/Google)'",
+      "rol": "escenario",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:3",
+      "dimensiones_px": "1440x1080",
+      "prompt": "Photorealistic photo of a young Peruvian family at home at night — parents and a child — delighted looking at a smartphone together, the screen glow lighting their faces with a soft teal-green tint, warm golden living-room lamps around them, cozy blankets, city lights bokeh through the window, intimate and modern. editorial lifestyle, shallow depth of field, 8k",
+      "estructura": {
+        "subject": "familia joven (padres + hijo) reaccionando al teléfono",
+        "environment": "sala acogedora nocturna, mantas, ciudad bokeh por la ventana",
+        "composition": "cercana-media, glow del teléfono en los rostros",
+        "camera": {
+          "toma": "close-medium",
+          "lente": "50mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level",
+          "enfoque": "rostros nítidos"
+        },
+        "lighting": "screen glow teal-verde (key) + lámparas doradas (relleno) — dual_temp íntima",
+        "color_palette": [
+          "#05070A",
+          "#22D3C6",
+          "#4ADE80",
+          "#FFB65C"
+        ],
+        "mood": "íntimo, encantado, moderno",
+        "style": "editorial lifestyle (como la familia con el teléfono de las infografías)",
+        "fx": [
+          "screen_glow",
+          "dual_temp",
+          "warm_bokeh",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade fílmico nocturno",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, real app logos, deformed hands, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:3 --style raw --v 6.1 --sref {infografia}",
+        "flux_sdxl": "aspect 4:3, steps 34",
+        "dalle3": "size 1792x1024 y recortar, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Familia con niño mirando el teléfono — escena calcada de las infografías 3 y 5."
+    },
+    {
+      "archivo": "casos-activacion.webp",
+      "seccion": "CASOS DE USO / ESCENARIOS",
+      "div": "Escenario 'Activaciones / eventos'",
+      "rol": "escenario",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:3",
+      "dimensiones_px": "1440x1080",
+      "prompt": "Photorealistic photo of a brand activation at night in a modern plaza, people engaging with a large interactive screen framed by thin teal neon edges showing a glowing home visualization, warm golden ambient lights and amber light streaks, energetic bokeh crowd, cinematic. editorial event photography, shallow depth of field, 8k",
+      "estructura": {
+        "subject": "personas interactuando con pantalla grande de activación",
+        "environment": "plaza/espacio abierto nocturno, setup moderno",
+        "composition": "3/4, pantalla + personas, energía",
+        "camera": {
+          "toma": "medium-wide",
+          "lente": "35mm",
+          "apertura": "f/2.5",
+          "angulo": "eye-level",
+          "enfoque": "sujetos nítidos"
+        },
+        "lighting": "pantalla + neón teal + ámbar cálido ambiental (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#22D3C6",
+          "#4ADE80",
+          "#FB923C"
+        ],
+        "mood": "energético, moderno, envolvente",
+        "style": "editorial event photography",
+        "fx": [
+          "screen_glow",
+          "neon_arc (marco de pantalla)",
+          "light_streaks",
+          "bokeh multitud",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade con tinte de marca",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, real brand logos, deformed hands, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:3 --style raw --v 6.1 --sref {infografia}",
+        "flux_sdxl": "aspect 4:3, steps 34",
+        "dalle3": "size 1792x1024 y recortar, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Escenario activaciones con los FX de marca (neón + streaks)."
+    },
+    {
+      "archivo": "beneficios-visual.webp",
+      "seccion": "BENEFICIOS",
+      "div": "Imagen de apoyo junto al panel de beneficios",
+      "rol": "editorial",
+      "formato": "webp/jpg",
+      "aspect_ratio": "3:2",
+      "dimensiones_px": "1600x1067",
+      "prompt": "Photorealistic photo of a confident real-estate advisor showing a tablet to a delighted multigenerational Peruvian family (parents and teenage son) gathered around a table in a dark premium showroom, tablet screen glowing on their faces showing a personalized home image, warm golden lamps, subtle teal rim light and thin teal light accents, trust and emotional buying decision. editorial business lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "asesora + familia multigeneracional conectando sobre la tablet",
+        "environment": "showroom premium oscuro, mesa, acentos teal",
+        "composition": "media, tablet como punto focal, rostros iluminados por la pantalla",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "rostros + tablet nítidos"
+        },
+        "lighting": "screen glow + lámparas doradas + rim teal (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#22D3C6",
+          "#4ADE80"
+        ],
+        "mood": "confianza, conexión, aspiración",
+        "style": "editorial business lifestyle (la escena central de la infografía 1)",
+        "fx": [
+          "screen_glow",
+          "dual_temp",
+          "connector_glow sutil",
+          "warm_bokeh",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade premium cálido",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, real logos, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 3:2 --style raw --v 6.1 --sref {infografia}",
+        "flux_sdxl": "aspect 3:2, steps 34",
+        "dalle3": "size 1792x1024 y recortar a 3:2, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Familia multigeneracional (no solo pareja) — igual que la infografía 'venta emocional'."
+    },
+    {
+      "archivo": "confianza-testimonial-retrato.webp",
+      "seccion": "CONFIANZA (testimonial)",
+      "div": "Retrato del testimonio (gerente comercial)",
+      "rol": "retrato",
+      "formato": "webp/jpg",
+      "aspect_ratio": "1:1",
+      "dimensiones_px": "800x800",
+      "prompt": "Photorealistic professional portrait of a confident Peruvian commercial manager in his 40s, subtle warm smile, dark blazer, dark charcoal background with a soft teal gradient glow behind him and a faint warm golden rim light, approachable executive energy. editorial corporate portrait, shallow depth of field, 85mm, 8k",
+      "estructura": {
+        "subject": "gerente comercial (40s), sonrisa sutil, saco oscuro",
+        "environment": "fondo carbón oscuro con glow teal degradado",
+        "composition": "retrato centrado cabeza-hombros, mirada a cámara",
+        "camera": {
+          "toma": "portrait",
+          "lente": "85mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "rostro nítido"
+        },
+        "lighting": "key suave frontal + rim dorado cálido + glow teal de fondo (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#0A1014",
+          "#22D3C6",
+          "#FFB65C"
+        ],
+        "mood": "confiable, ejecutivo, cercano",
+        "style": "retrato corporativo editorial (como el testimonial de las infografías)",
+        "fx": [
+          "dual_temp",
+          "teal background glow",
+          "film_grain",
+          "bloom_vignette sutil"
+        ],
+        "post_processing": "grade corporativo cálido-oscuro",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, stock smile, deformed features, busy background, low quality",
+      "parametros": {
+        "midjourney": "--ar 1:1 --style raw --v 6.1",
+        "flux_sdxl": "aspect 1:1, steps 34",
+        "dalle3": "size 1024x1024, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "NUEVA (v3): la sección CONFIANZA lleva testimonio con retrato (como 'Andrés Molina' en la infografía 5)."
+    },
+    {
+      "archivo": "pagina-personalizada-mockup.webp",
+      "seccion": "PÁGINA PERSONALIZADA",
+      "div": "Contenido del mockup de 'tu página personalizada'",
+      "rol": "producto/mockup-contenido",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:5",
+      "dimensiones_px": "1080x1350",
+      "prompt": "Photorealistic hero image for a personalized landing page: a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — standing proudly at the doorway of their modern apartment at dusk, keys in hand, warm golden entrance light embracing them, cool teal-blue evening tones in the corridor behind, aspirational this-is-your-new-life mood, clean empty space at the top for a title. editorial lifestyle, shallow depth of field, 35mm, cinematic, 8k",
+      "estructura": {
+        "subject": "la pareja en el umbral, llaves en mano, orgullosos",
+        "environment": "entrada del departamento al anochecer",
+        "composition": "vertical, pareja abajo-centro, AIRE limpio arriba para el título",
+        "camera": {
+          "toma": "medium-wide",
+          "lente": "35mm",
+          "apertura": "f/2.0",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "luz dorada del ingreso (key) + pasillo azul-teal frío (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#0E1B2A",
+          "#22D3C6",
+          "#4ADE80"
+        ],
+        "mood": "orgullo, bienvenida, aspiración",
+        "style": "editorial lifestyle",
+        "fx": [
+          "dual_temp",
+          "bloom_vignette",
+          "warm_bokeh",
+          "film_grain",
+          "particles sutil"
+        ],
+        "post_processing": "grade fílmico cálido",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, ui elements, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:5 --style raw --v 6.1 --cref {ref} --cw 80",
+        "flux_sdxl": "aspect 4:5, steps 36, reference",
+        "dalle3": "size 1024x1792 y recortar a 4:5 (1024x1280), natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "Va dentro del mockup 'Tu nueva vida en Altos del Valle'. Deja AIRE arriba para el título."
+    },
+    {
+      "archivo": "seguimiento-whatsapp-imagen.webp",
+      "seccion": "SEGUIMIENTO WHATSAPP",
+      "div": "Imagen compartida dentro del mockup de chat",
+      "rol": "producto/mockup-contenido",
+      "formato": "webp/jpg",
+      "aspect_ratio": "4:5",
+      "dimensiones_px": "1080x1350",
+      "prompt": "Photorealistic warm photo of a Peruvian couple in their late 30s — the man with short dark hair and light stubble, the woman with shoulder-length wavy dark hair — cozied up on their new sofa at night with candles and warm string lights around, framed like a personal photo they would be proud to receive on WhatsApp, golden intimate glow with a faint cool teal window light behind, celebratory and tender. editorial lifestyle, shallow depth of field, 35mm, 8k",
+      "estructura": {
+        "subject": "la pareja acurrucada en su sofá — foto personal para compartir",
+        "environment": "sala nueva de noche, velas y guirnaldas",
+        "composition": "vertical, pareja centrada, íntima",
+        "camera": {
+          "toma": "medium",
+          "lente": "35mm",
+          "apertura": "f/1.8",
+          "angulo": "eye-level",
+          "enfoque": "pareja nítida"
+        },
+        "lighting": "velas + guirnaldas doradas (key) + ventana teal fría detrás (dual_temp)",
+        "color_palette": [
+          "#05070A",
+          "#FFB65C",
+          "#FB923C",
+          "#22D3C6"
+        ],
+        "mood": "íntimo, celebratorio, tierno",
+        "style": "editorial lifestyle (se siente foto personal)",
+        "fx": [
+          "candle_glow",
+          "string_lights",
+          "dual_temp",
+          "warm_bokeh",
+          "film_grain",
+          "bloom_vignette"
+        ],
+        "post_processing": "grade acogedor cálido",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, chat ui, deformed hands, stock smile, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 4:5 --style raw --v 6.1 --cref {ref} --cw 80",
+        "flux_sdxl": "aspect 4:5, steps 36, reference",
+        "dalle3": "size 1024x1792 y recortar a 4:5 (1024x1280), natural",
+        "seed": "misma pareja"
+      },
+      "personaje_consistente": true,
+      "notas": "La imagen 'que llega por WhatsApp' — encaja en la burbuja de chat (como la infografía 2)."
+    },
+    {
+      "archivo": "cta-final-bg.webp",
+      "seccion": "CTA FINAL",
+      "div": "Fondo full-bleed de la llamada final a la acción",
+      "rol": "background",
+      "formato": "webp/jpg",
+      "aspect_ratio": "16:9",
+      "dimensiones_px": "2560x1440",
+      "prompt": "Cinematic aspirational background: a Peruvian couple seen from behind, silhouetted at floor-to-ceiling windows of a premium apartment, looking at a glowing Lima skyline at blue hour with dramatic navy clouds, warm golden interior reflections around them, a subtle teal neon arc of light curving across the glass, diagonal amber light streaks, deep dark tones with big empty space above for headline and button. photorealistic, cinematic, high dynamic range, 8k",
+      "estructura": {
+        "subject": "pareja de espaldas (silueta) ante el ventanal, admirando la ciudad",
+        "environment": "departamento premium, skyline blue-hour, nubes dramáticas",
+        "composition": "wide, siluetas tercio inferior, gran espacio vacío arriba para titular+botón",
+        "camera": {
+          "toma": "wide",
+          "lente": "24-35mm",
+          "apertura": "f/2.8",
+          "angulo": "eye-level",
+          "enfoque": "suave, atmosférico"
+        },
+        "lighting": "contraluz blue-hour + reflejos dorados interiores + arco teal (dual_temp firma)",
+        "color_palette": [
+          "#05070A",
+          "#0E1B2A",
+          "#1E3A5F",
+          "#FFB65C",
+          "#22D3C6",
+          "#FB923C"
+        ],
+        "mood": "aspiracional, cinematográfico, calmo",
+        "style": "cinematic lifestyle background",
+        "fx": [
+          "neon_arc",
+          "light_streaks",
+          "dusk_clouds",
+          "dual_temp",
+          "bloom_vignette",
+          "particles"
+        ],
+        "post_processing": "grade oscuro cinematográfico con contraste cálido-frío",
+        "quality": "8k, photorealistic"
+      },
+      "negativo": "text, watermark, faces in focus, bright daylight, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 16:9 --style raw --v 6.1 --sref {infografia} --sw 200 --q 2",
+        "flux_sdxl": "aspect 16:9, steps 35, guidance 3.5",
+        "dalle3": "size 1792x1024, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "Silueta de espaldas (no distrae del titular). Con el arco teal y streaks de marca."
+    },
+    {
+      "archivo": "footer-bg-textura.webp",
+      "seccion": "FOOTER",
+      "div": "Textura/gradiente sutil de fondo del footer",
+      "rol": "background-sutil",
+      "formato": "webp/jpg",
+      "aspect_ratio": "21:9",
+      "dimensiones_px": "2560x1097",
+      "prompt": "Very subtle dark abstract background texture for a website footer: near-black charcoal base with a faint out-of-focus city skyline silhouette at the bottom edge, gentle teal and green light gradients drifting from one corner, a whisper of warm amber glow on the opposite corner, very low contrast, plenty of dark negative space so white text stays readable. minimalist, cinematic, 8k",
+      "estructura": {
+        "subject": "textura abstracta oscura, silueta tenue de skyline abajo",
+        "environment": "abstracto",
+        "composition": "ultra-wide, skyline al borde inferior, casi todo espacio oscuro vacío",
+        "camera": {
+          "toma": "ultra-wide",
+          "lente": "n/a",
+          "apertura": "n/a",
+          "angulo": "n/a",
+          "enfoque": "suave"
+        },
+        "lighting": "degradados teal-verde en una esquina + susurro ámbar en la opuesta, contraste muy bajo (dual_temp mínima)",
+        "color_palette": [
+          "#05070A",
+          "#0A1014",
+          "#22D3C6",
+          "#4ADE80",
+          "#FB923C"
+        ],
+        "mood": "quieto, mínimo, premium",
+        "style": "textura minimalista cinematográfica",
+        "fx": [
+          "bloom_vignette",
+          "particles muy sutiles",
+          "gradient glow",
+          "bokeh skyline tenue"
+        ],
+        "post_processing": "negros aplastados, contraste muy bajo",
+        "quality": "8k, clean"
+      },
+      "negativo": "text, watermark, people, bright, high contrast, busy, clutter, low quality",
+      "parametros": {
+        "midjourney": "--ar 21:9 --style raw --v 6.1 --q 2",
+        "flux_sdxl": "aspect 21:9, steps 32",
+        "dalle3": "size 1792x1024 y recortar, natural",
+        "seed": "libre"
+      },
+      "personaje_consistente": false,
+      "notas": "MUY bajo contraste: solo realce, no compite con el texto blanco del footer."
+    }
+  ]
+}
