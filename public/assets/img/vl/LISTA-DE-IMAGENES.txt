@@ -1,0 +1,56 @@
+VISIONLIFE — LISTA DE IMÁGENES PARA GENERAR (v3.1)
+Guarda cada archivo con el nombre EXACTO (extensión .png/.jpg/.webp da igual) y déjalo en ESTA carpeta.
+Los prompts completos están en visionlife-landing/prompts-imagenes-visionlife.json
+
+== HERO ==
+  [ ] hero-bg-ambient.webp                   16:9   2560x1440
+  [ ] hero-device-screen.webp                4:5    1080x1350   ← MISMA PAREJA (cref/seed)
+  [ ] hero-card-foto-prospecto.webp          1:1    600x600   ← MISMA PAREJA (cref/seed)
+  [ ] hero-card-proyecto.webp                1:1    600x600
+
+== DOLOR (El problema real de la captación) ==
+  [ ] dolor-lead-frio.webp                   3:2    1600x1067
+
+== INSIGHT EMOCIONAL (before/after) ==
+  [ ] insight-antes-render-generico.webp     4:5    1080x1350
+  [ ] insight-despues-viviendo-sala.webp     4:5    1080x1350   ← MISMA PAREJA (cref/seed)
+
+== QUÉ ES VISIONLIFE (grid de 4) ==
+  [ ] quees-icon-captacion.png               1:1    512x512
+  [ ] quees-icon-ia.png                      1:1    512x512
+  [ ] quees-icon-personalizacion.png         1:1    512x512
+  [ ] quees-icon-whatsapp.png                1:1    512x512
+
+== CÓMO FUNCIONA — Demo interactivo (resultados) ==
+  [ ] demo-result-sala.webp                  1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+  [ ] demo-result-cocina.webp                1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+  [ ] demo-result-terraza.webp               1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+  [ ] demo-result-lobby.webp                 1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+  [ ] demo-result-dormitorio.webp            1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+  [ ] demo-result-rooftop.webp               1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+  [ ] demo-result-comunes.webp               1:1    1080x1080   ← MISMA PAREJA (cref/seed)
+
+== CASOS DE USO / ESCENARIOS ==
+  [ ] casos-feria.webp                       4:3    1440x1080
+  [ ] casos-caseta.webp                      4:3    1440x1080
+  [ ] casos-digital.webp                     4:3    1440x1080
+  [ ] casos-activacion.webp                  4:3    1440x1080
+
+== BENEFICIOS ==
+  [ ] beneficios-visual.webp                 3:2    1600x1067
+
+== CONFIANZA (testimonial) ==
+  [ ] confianza-testimonial-retrato.webp     1:1    800x800
+
+== PÁGINA PERSONALIZADA ==
+  [ ] pagina-personalizada-mockup.webp       4:5    1080x1350   ← MISMA PAREJA (cref/seed)
+
+== SEGUIMIENTO WHATSAPP ==
+  [ ] seguimiento-whatsapp-imagen.webp       4:5    1080x1350   ← MISMA PAREJA (cref/seed)
+
+== CTA FINAL ==
+  [ ] cta-final-bg.webp                      16:9   2560x1440
+
+== FOOTER ==
+  [ ] footer-bg-textura.webp                 21:9   2560x1097
+
